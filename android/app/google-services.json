@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "614656651353-09iq858s4rmstc8vlduihv6a751281ra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aqaratak",
+            "certificate_hash": "fe32d7b5ac808468f4dd9b6e96527b9d21ebd6db"
+          }
+        },
+        {
           "client_id": "614656651353-dfvgvve41l943onet7shme5o2k2i8cm7.apps.googleusercontent.com",
           "client_type": 3
         }

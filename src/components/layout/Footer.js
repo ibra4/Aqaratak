@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Actions} from 'react-native-router-flux';
 
 import I18n from '../../I18n'
+import auth from '@react-native-firebase/auth';
 
 export default function Footer() {
   const goTo = (name) => {
@@ -24,10 +25,10 @@ export default function Footer() {
         <Icon name="search" size={20} color={Colors.silver} />
         <Text style={{color: Colors.silver}}>{I18n.t('search')}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.footerItem} onPress={() => goTo("Login")}>
+      {!auth().currentUser && <TouchableOpacity style={style.footerItem} onPress={() => goTo("Login")}>
         <Icon name="user" size={20} color={Colors.silver} />
         <Text style={{color: Colors.silver}}>{I18n.t('profile')}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
       <TouchableOpacity style={style.footerItem} onPress={() => goTo("Menu")}>
         <Icon name="bars" size={20} color={Colors.silver} />
         <Text style={{color: Colors.silver}}>{I18n.t('menu')}</Text>
