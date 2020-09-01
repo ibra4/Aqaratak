@@ -7,6 +7,13 @@ import {
   ScrollView,
 } from 'react-native';
 import {Presets} from '../../assets/style';
+import I18n from '../../I18n'
+
+const labels = I18n.locale == 'ar' ? {
+  price: "السعر",
+} : {
+  price: "Price",
+}
 
 export default function BookForm() {
   return (
@@ -14,7 +21,7 @@ export default function BookForm() {
       <View
         style={[Presets.fullScreen, Presets.container, Presets.justifyCenter]}>
         <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-          <TextInput placeholder="test 1" style={Presets.textField} />
+          <TextInput placeholder={labels.price} style={Presets.textField} />
         </View>
         <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
           <TextInput placeholder="test 2" style={Presets.textField} />

@@ -90,6 +90,19 @@ export default function Menu() {
             color={Colors.silver}
           />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={[Presets.menuItem, Presets.spaceBetween]}
+          onPress={() => Actions.push('HouseForm')}>
+          <View style={Presets.flexStart}>
+            <Icon name="home" size={20} color={Colors.silver} />
+            <Text style={Presets.menuItemText}>{I18n.t('add_new_ouse')}</Text>
+          </View>
+          <Icon
+            name={I18n.locale == 'ar' ? 'chevron-left' : 'chevron-right'}
+            size={20}
+            color={Colors.silver}
+          />
+        </TouchableOpacity>
       </View>
       <Footer />
     </ScrollView>

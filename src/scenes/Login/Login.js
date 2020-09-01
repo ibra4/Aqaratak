@@ -67,7 +67,7 @@ export default function Login({props}) {
           Login
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[Presets.btn, Presets.fieldMargin]}>
+      <TouchableOpacity style={[Presets.btn, Presets.fieldMargin]} activeOpacity="0.9">
         <Text style={[Presets.colorBlack, Presets.btnText, Presets.upperCase]}>
           Register
         </Text>

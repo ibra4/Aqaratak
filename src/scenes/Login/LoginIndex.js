@@ -4,6 +4,7 @@ import Login from './Login';
 import auth from '@react-native-firebase/auth';
 
 import I18n from '../../I18n';
+import {Actions} from 'react-native-router-flux';
 
 export default class LoginIndex extends Component {
   constructor(props) {
@@ -14,6 +15,10 @@ export default class LoginIndex extends Component {
     };
 
     this.loginUser = this.loginUser.bind(this);
+  }
+
+  async componentDidMount() {
+    const user = await auth().currentUser;
   }
 
   handleError(error) {
@@ -32,7 +37,7 @@ export default class LoginIndex extends Component {
       .then((res) => {
         // store userdata in device storage
         // store userdata in redux
-        console.log('Success');
+        Actions.push('Home');
       })
       .catch((error) => this.handleError(error));
   }
