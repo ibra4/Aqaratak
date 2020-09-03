@@ -21,6 +21,14 @@ module.exports = StyleSheet.create({
     elevation: 2,
     backgroundColor: Colors.white,
   },
+  spcsContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
   textField: {
     paddingLeft: 10,
     paddingRight: 10,
@@ -217,7 +225,7 @@ module.exports = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     textAlign: 'center',
-    width: '100%'
+    width: '100%',
   },
   primaryBtn: {
     backgroundColor: Colors.claret,
@@ -298,5 +306,30 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     color: Colors.black,
     paddingBottom: 10,
+  },
+  ImageUploadFieldContainer: {
+    justifyContent: 'center',
+    height: 50,
+    borderRadius: 10,
+    borderColor: Colors.claret,
+    borderWidth: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 10,
+  },
+  ImageUploadField: {
+    backgroundColor: Colors.white,
+    color: Colors.claret,
+  },
+  trashTopIcon: {
+    backgroundColor: 'white',
+    // padding: 10,
+    height: 30,
+    width: 30,
+    borderRadius: 25,
+    borderColor: 'red',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

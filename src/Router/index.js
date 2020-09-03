@@ -20,10 +20,12 @@ export default function index() {
   return (
     <Router>
       <Stack key="root">
+        {!auth().currentUser && (
+          <Scene key="Login" component={LoginIndex} hideNavBar />
+        )}
         {auth().currentUser && (
           <Scene key="HouseForm" component={HouseFormIndex} hideNavBar />
         )}
-        {!auth().currentUser && <Scene key="Login" component={LoginIndex} hideNavBar />}
         <Scene key="BookForm" component={BookFormIndex} hideNavBar />
         <Scene key="Home" component={HomeIndex} hideNavBar />
         <Scene key="House" component={HouseIndex} hideNavBar />

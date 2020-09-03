@@ -1,100 +1,16 @@
 /* */
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, Platform} from 'react-native';
 
-import {url} from './routes.js';
-import {langCode} from './routes.js';
-import {page} from './routes.js';
-import {size} from './routes.js';
+import ImagePicker from 'react-native-image-picker';
 
-function getUrl(options) {
-  return (
-    url + options.route + '/' + langCode + options.locale + page + options.page
-  );
-}
+import storage from '@react-native-firebase/storage';
 
-function getSingleUrl(options) {
-  return url + options.route + '/' + options.id + langCode + options.locale;
-}
-
-function getPostUrl(options) {
-  return url + options.route + '/';
-}
-
-/**
- *
- * Get All listings
- *
- * @param string options
- * @return promise
- */
-export const get = async (options) => {
-  let url = getUrl(options);
-
-  const response = await fetch(url);
-
-  return response;
-};
-
-/**
- *
- * Get single
- *
- * @param string options
- * @return promise
- */
-export const getById = async (options) => {
-  let url = getSingleUrl(options);
-
-  const response = await fetch(url);
-
-  return response;
-};
-
-/**
- *
- * Get single
- *
- * @param string options
- * @return promise
- */
-export const getByKey = async (options) => {
-  let target =
-    url +
-    options.route +
-    page +
-    options.page +
-    size +
-    options.size +
-    '&langCode=' +
-    options.locale;
-
-  const response = await fetch(target);
-
-  return response;
-};
-
-/**
- *
- * Post Api
- *
- * @param string url
- * @param obj data
- * @return promise
- */
-export const post = async (options, data) => {
-  let url = getPostUrl(options);
-
-  const response = await fetch(url, {
-    method: 'POST',
-    body: data,
-    headers: {
-      Accept: 'application/json',
-      dataType: 'json',
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-  });
-
-  return response;
+const options = {
+  title: 'Select Image',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
 };
 
 export const setStorageItem = async (key, object) => {
@@ -114,3 +30,23 @@ export const getStorageItem = async (key) => {
     return 'Error : ', error;
   }
 };
+
+export const ImageUploader = () =>
+  ImagePicker.showImagePicker(options, async (response) => {
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else {
+      const fileLocalPath =
+        Platform.OS === 'android' ? response.path : response.uri;
+      const storageRef = storage().ref(response.fileName);
+      const downloadableUrl = await storageRef.getDownloadURL();
+      storageRef.putFile(fileLocalPath).then(() => {
+        return {
+          localUri: response.uri,
+          url: downloadableUrl,
+        };
+      });
+    }
+  });
