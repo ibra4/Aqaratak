@@ -41,6 +41,7 @@ export default {
   location: 'Location',
   offerType: 'Offer Type',
   choose_offer_type: 'Choose Offer Type',
+  specifications: 'Specifications',
   title: "Title",
   empty: 'empty',
   empty: 'empty',
