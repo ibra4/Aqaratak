@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Login from './Login';
 
 import auth from '@react-native-firebase/auth';
 
 import I18n from '../../I18n';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import { setUser } from '../../actions';
 
-export default class LoginIndex extends Component {
+class LoginIndex extends Component {
   constructor(props) {
     super(props);
 
@@ -15,10 +17,6 @@ export default class LoginIndex extends Component {
     };
 
     this.loginUser = this.loginUser.bind(this);
-  }
-
-  async componentDidMount() {
-    const user = await auth().currentUser;
   }
 
   handleError(error) {
@@ -35,8 +33,7 @@ export default class LoginIndex extends Component {
     auth()
       .signInWithEmailAndPassword(userData.email, userData.password)
       .then((res) => {
-        // store userdata in device storage
-        // store userdata in redux
+        this.props.setUser(res.user)
         Actions.push('Home');
       })
       .catch((error) => this.handleError(error));
@@ -53,3 +50,11 @@ export default class LoginIndex extends Component {
     return this.renderTemplate();
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: (user) => dispatch(setUser(user))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LoginIndex)

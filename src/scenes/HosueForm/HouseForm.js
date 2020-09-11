@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -9,14 +9,14 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import {Presets, Spacing, Colors} from '../../assets/style';
+import { Presets, Spacing, Colors } from '../../assets/style';
 
 import I18n from '../../I18n';
 
 import ImagePicker from 'react-native-image-picker';
 
 import storage from '@react-native-firebase/storage';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loading from '../../components/Loading';
 import LoadingSmall from '../../components/LoadingSmall';
@@ -58,10 +58,10 @@ const en = {
   for_sale: 'For Sale',
 };
 
-function HouseForm({props}) {
+function HouseForm({ props }) {
   const [labels, setLabels] = useState(null);
 
-  const [data, setData] = useState({offerType: 0});
+  const [data, setData] = useState({ offerType: 0 });
 
   const [specs, setSpecs] = useState([]);
 
@@ -76,18 +76,18 @@ function HouseForm({props}) {
   const [galleryLoader, setGalleryLoader] = useState(false);
 
   const fields = {
-    title: {required: true, error: false},
-    price: {required: true, error: false},
-    area: {required: true},
+    title: { required: true, error: false },
+    price: { required: true, error: false },
+    area: { required: true },
     error: false,
-    kitchens: {required: true, error: false},
-    parkings: {required: true},
+    kitchens: { required: true, error: false },
+    parkings: { required: true },
     error: false,
-    bathrooms: {required: true, error: false},
-    bedrooms: {required: true, error: false},
-    location: {required: true, error: false},
-    offerType: {required: true, error: false},
-    description: {required: true, error: false},
+    bathrooms: { required: true, error: false },
+    bedrooms: { required: true, error: false },
+    location: { required: true, error: false },
+    offerType: { required: true, error: false },
+    description: { required: true, error: false },
   };
 
   const setValue = (name, value) => {
@@ -142,12 +142,13 @@ function HouseForm({props}) {
     if (valid) {
       setData({});
       props.handleSubmit(data);
-      Actions.push('Home', {message: 'Added Successfully'});
+      Actions.push('Home', { message: 'Added Successfully' });
     }
   };
 
   const uploadImage = async () =>
     ImagePicker.showImagePicker(options, async (response) => {
+      console.log("Upoad Pressed")
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -162,6 +163,7 @@ function HouseForm({props}) {
           .then(async () => {
             const downloadableUrl = await storageRef.getDownloadURL();
             setValue('image', downloadableUrl);
+            console.log("downloadableUrl : ", downloadableUrl)
           })
           .catch((err) => console.log(err));
       }
@@ -193,8 +195,8 @@ function HouseForm({props}) {
 
   const renderSpecs = () => {
     return (
-      <View style={{paddingTop: Spacing.large}}>
-        <Text style={[Presets.title, {fontSize: 20}]}>
+      <View style={{ paddingTop: Spacing.large }}>
+        <Text style={[Presets.title, { fontSize: 20 }]}>
           {I18n.t('specifications')}
         </Text>
         <View>
@@ -207,7 +209,7 @@ function HouseForm({props}) {
           <TouchableOpacity
             style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}
             onPress={() => addSpec()}>
-            <Text style={[Presets.btnText, {color: Colors.white}]}>
+            <Text style={[Presets.btnText, { color: Colors.white }]}>
               {I18n.t('add')}
             </Text>
           </TouchableOpacity>
@@ -249,11 +251,11 @@ function HouseForm({props}) {
               onPress={() => uploadImage()}>
               <Text style={Presets.ImageUploadField}>Upload</Text>
             </TouchableOpacity>
-            <View style={[{alignItems: 'center'}, Presets.container]}>
+            <View style={[{ alignItems: 'center' }, Presets.container]}>
               {imageUri && (
                 <Image
-                  style={{height: 100, width: 100}}
-                  source={{uri: imageUri}}
+                  style={{ height: 100, width: 100 }}
+                  source={{ uri: imageUri }}
                 />
               )}
             </View>
@@ -267,8 +269,8 @@ function HouseForm({props}) {
                 <Text style={Presets.ImageUploadField}>Upload</Text>
               </TouchableOpacity>
             ) : (
-              <LoadingSmall />
-            )}
+                <LoadingSmall />
+              )}
             <View
               style={[
                 {
@@ -282,11 +284,11 @@ function HouseForm({props}) {
               ]}>
               {galleryUri.length > 0 &&
                 galleryUri.map((item, index) => (
-                  <View style={{width: '49.9%'}}>
+                  <View style={{ width: '49.9%' }}>
                     <Image
                       key={index}
-                      style={{height: 100, margin: 10}}
-                      source={{uri: item}}
+                      style={{ height: 100, margin: 10 }}
+                      source={{ uri: item }}
                     />
                     <TouchableOpacity
                       onPress={() => removeGalleryUri(index)}
@@ -394,7 +396,7 @@ function HouseForm({props}) {
               {I18n.t('add')}
             </Text>
           </TouchableOpacity>
-          <Text style={{paddingTop: 150}}></Text>
+          <Text style={{ paddingTop: 150 }}></Text>
         </ScrollView>
       </View>
     )

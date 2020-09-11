@@ -1,26 +1,26 @@
-import React, {createRef} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import React, { createRef } from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
-import {Presets, Colors} from '../../assets/style';
-import {imageHeight16, screenWidth} from '../../assets/style/dimensions';
+import { Presets, Colors } from '../../assets/style';
+import { imageHeight16, screenWidth } from '../../assets/style/dimensions';
 
 import I18n from '../../I18n';
 
-export default function Highlights({data}) {
+export default function Highlights({ data }) {
   const carouselRef = createRef();
 
-  const renderHighLightItem = ({item}) => {
+  const renderHighLightItem = ({ item }) => {
     return (
       <TouchableOpacity
-        onPress={() => Actions.push('House', {id: item.id})}
+        onPress={() => Actions.push('House', { id: item.id })}
         style={Presets.borderRadius15}>
         <Image
-          source={{uri: item.image}}
-          style={{height: imageHeight16, width: screenWidth}}
+          source={{ uri: item.image }}
+          style={{ height: imageHeight16, width: screenWidth }}
         />
         <LinearGradient
           colors={['#00000000', '#000000ff']}

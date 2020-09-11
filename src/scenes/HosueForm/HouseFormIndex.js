@@ -3,6 +3,8 @@ import HouseForm from './HouseForm';
 import Layout from '../../components/layout/parallax/Layout';
 import firestore from '@react-native-firebase/firestore';
 
+import I18n from '../../I18n'
+
 export default class HouseFormIndex extends Component {
   handleSubmit(data) {
     firestore()
@@ -20,6 +22,6 @@ export default class HouseFormIndex extends Component {
   }
 
   render() {
-    return <Layout title="test">{this.renderTemplate()}</Layout>;
+    return <Layout title={I18n.t('add_new_house')}>{this.renderTemplate()}</Layout>;
   }
 }
