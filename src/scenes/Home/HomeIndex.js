@@ -22,6 +22,7 @@ class HomeIndex extends Component {
   }
 
   componentDidMount() {
+    console.log("test")
     this.getData();
   }
 

@@ -41,6 +41,7 @@ const App: () => React$Node = () => {
   }, []);
 
   const renderTemplate = () => {
+    console.log(status)
     switch (status) {
       case 'success':
         return <Main />;
