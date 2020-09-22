@@ -5,5 +5,10 @@ module.exports = {
     lightGray: '#e8e8e8',
     silver: '#888888',
     claret: '#8C1B3D',
-    black: '#000'
+    black: '#000',
+    Whatsapp: '#4FCE5D',
+    Snapchat: '#FFFF00',
+    Facebook: '#3b5998',
+    Instagram: '#3f729b',
+    twitter:'#00acee',
 };

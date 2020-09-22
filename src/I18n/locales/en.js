@@ -50,7 +50,7 @@ export default {
   address: 'Address',
   message: 'Message',
   send: 'Send',
-  empty: 'empty',
+  My_house: 'My houses',
   empty: 'empty',
   empty: 'empty',
   empty: 'empty',

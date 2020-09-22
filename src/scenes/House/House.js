@@ -124,6 +124,29 @@ export default function House({props}) {
           </Text>
         </View>
       </View>
+      {/* <View style={Presets.Connecticons}>
+        <TouchableOpacity
+          // onPress={() => logoutUser()}
+          >
+          <View style={Presets.Connecticon}>
+            <Icon name="phone" size={40} color={Colors.Instagram} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // onPress={() => logoutUser()}
+          >
+          <View style={Presets.Connecticon}>
+            <Icon name="whatsapp" size={40} color={Colors.Whatsapp} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // onPress={() => logoutUser()} 
+          >
+          <View style={Presets.Connecticon}>
+            <Icon name="comment-o" size={40} color={Colors.Instagram} />
+          </View>
+        </TouchableOpacity>
+      </View> */}
       <View style={[Presets.container, Presets.flexStart]}>
         <TouchableOpacity
           style={[style.bookButton]}
@@ -230,6 +253,11 @@ export default function House({props}) {
             </TouchableOpacity>
             <TouchableOpacity
               style={[Presets.contactButton, {marginLeft: 10}]}
+              onPress={() => Linking.openURL(`sms: ${owner.phone}`)}>
+              <Icon name="comment-o" size={20} color={Colors.claret} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[Presets.contactButton, {marginLeft: 10}]}
               onPress={() => Linking.openURL(`mailto: ${owner.mail}`)}>
               <Icon name="envelope" size={20} color={Colors.claret} />
             </TouchableOpacity>
@@ -250,7 +278,7 @@ export default function House({props}) {
           : props.data.propertyDetails,
       )}
       {/* {renderLocation(props.data.location)} */}
-      {/* {renderContact(props.data.owner)} */}
+      {renderContact(props.data.owner)}
       {renderSpacing()}
     </ScrollView>
   );

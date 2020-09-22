@@ -66,12 +66,15 @@ export default function Settings() {
         <Picker.Item style={{alignSelf: 'center'}} label="العربية" value="ar" />
         <Picker.Item style={{textAlign: 'center'}} label="English" value="en" />
       </Picker>
-      <TouchableOpacity
-        activeOpacity={0}
-        style={styles.button}
-        onPress={setLanguage}>
-        <Text style={styles.text}>{I18n.t('submit')}</Text>
-      </TouchableOpacity>
+      <View style={styles.button2}>
+        <TouchableOpacity
+            activeOpacity={0}
+            style={styles.button}
+            onPress={setLanguage}>
+           <Text style={styles.text}>{I18n.t('submit')}</Text>
+        </TouchableOpacity>
+      </View>
+     
     </View>
   ) : (
     <Loading />
@@ -94,5 +97,9 @@ const styles = StyleSheet.create({
   picker: {
     height: 80,
     width: 200,
+    
+  },
+  button2: {
+    marginTop:"30%",
   },
 });

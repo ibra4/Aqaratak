@@ -43,7 +43,7 @@ module.exports = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop: 15,
-    paddingBottom: 15,
+    paddingBottom: 50,
   },
   bordered: {
     borderRadius: 30,
@@ -330,5 +330,30 @@ module.exports = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  socailicon: {
+    alignItems:"center",
+    width:"100%",
+    padding:20
+  },
+  socailicons: {
+    flexDirection:'row',
+    width:"100%",
+    alignItems:"center",
+    paddingRight:"10%",
+    paddingLeft:"10%",
+    paddingTop:"15%" ,
+  },
+  Connecticon: {
+    alignItems:"center",
+    width:"100%",
+    margin:30
+  },
+  Connecticons: {
+    flexDirection:'row',
+    width:"100%",
+    alignItems:"center",
+    paddingRight:"10%",
+    paddingLeft:"10%",
   },
 });

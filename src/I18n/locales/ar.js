@@ -50,7 +50,7 @@ export default {
   phone_number: 'رقم الموبايل',
   address: 'العنوان',
   message: 'الرسالة',
-  empty: 'empty',
+  My_house: 'اعلاناتي',
   empty: 'empty',
   empty: 'empty',
   empty: 'empty',

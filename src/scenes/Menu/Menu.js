@@ -141,6 +141,45 @@ export default function Menu() {
             color={Colors.silver}
           /> */}
         </TouchableOpacity>}
+
+        <View style={Presets.socailicons}>
+        <TouchableOpacity
+          // onPress={() => logoutUser()}
+          >
+          <View style={Presets.socailicon}>
+            <Icon name="whatsapp" size={30} color={Colors.Whatsapp} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // onPress={() => logoutUser()}
+          >
+          <View style={Presets.socailicon}>
+            <Icon name="instagram" size={30} color={Colors.Instagram} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // onPress={() => logoutUser()}
+          >
+          <View style={Presets.socailicon}>
+            {/* <Icon name="facebook" size={20} color={Colors.claret} /> */}
+            <Icon name="facebook" size={30} color={Colors.Facebook} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // onPress={() => logoutUser()}
+          >
+          <View style={Presets.socailicon}>
+            <Icon name="twitter" size={30} color={Colors.twitter} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          // onPress={() => logoutUser()}
+          >
+          <View style={Presets.socailicon}>
+            <Icon name="snapchat-ghost" size={30} color={Colors.Snapchat} />
+          </View>
+        </TouchableOpacity>
+        </View>
       </View>
       <Footer />
     </ScrollView>

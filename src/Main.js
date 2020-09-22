@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-
-import Router from './Router';
 import auth from '@react-native-firebase/auth';
+import Router from './Router';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from './actions';
 
