@@ -11,11 +11,11 @@ import NewsIndex from '../scenes/News/NewsIndex';
 import BookFormIndex from '../scenes/BookForm/BookFormIndex';
 import NewsInnerIndex from '../scenes/News/inner/index';
 import HouseFormIndex from '../scenes/HosueForm/HouseFormIndex';
+import AdminMessage from '../scenes/AdminMessage/AdminMessage'
 import About from '../scenes/About'
 import Privacy from '../scenes/Privacy'
 import Contact from '../scenes/Contact'
 import Register from '../scenes/Register'
-import auth from '@react-native-firebase/auth';
 import { useSelector } from 'react-redux';
 
 export default function index() {
@@ -30,10 +30,11 @@ export default function index() {
           <Scene key="Login" component={LoginIndex} hideNavBar />
         )}
         <Scene key="Register" component={Register} hideNavBar />
-        {loggedIn && (
+        {/* {loggedIn && ( */}
           <Scene key="HouseForm" component={HouseFormIndex} hideNavBar />
-        )}
+        {/* )} */}
         <Scene key="About" component={About} hideNavBar />
+        <Scene key="Message" component={AdminMessage} hideNavBar />
         <Scene key="Privacy" component={Privacy} hideNavBar />
         <Scene key="Contact" component={Contact} hideNavBar />
         <Scene key="BookForm" component={BookFormIndex} hideNavBar />

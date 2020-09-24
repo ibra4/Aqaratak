@@ -1,33 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, Picker } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Layout from '../../components/layout/parallax/Layout';
-import firestore from '@react-native-firebase/firestore'
 import { Presets, Colors } from '../../assets/style';
 
 import I18n from '../../I18n'
-import Loading from '../../components/Loading';
 import Swiper from 'react-native-swiper';
 
 import { imageHeight16, screenWidth } from '../../assets/style/dimensions';
 import { Actions } from 'react-native-router-flux';
-import LinearGradient from 'react-native-linear-gradient';
+import MultiSlider from '@ptomasroos/react-native-multi-slider'
+import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import { housesRoute, searchRoute } from '../../providers/routes';
 
-export default function Search() {
+export default function Search({ props }) {
 
-  const [data, setData] = useState([])
-  const [status, setStatus] = useState("loading")
   const [search, setSearch] = useState(null)
+  const [selectedOffer, setSelectedOffer] = useState("")
+  const [selectedCity, setSelectedCity] = useState("")
+  const [priceValues, setPriceValues] = useState([100, 500000])
+  const [roomNumbers, setRoomNumbers] = useState({
+    kitchen: null,
+    bedroom: null,
+    bathroom: null,
+    parking: null
+  })
+  const [collapsed, setCollapsed] = useState(false)
+
+  const cities = [{
+    value: 'amman',
+    label: 'Amman'
+  }, {
+    value: 'istanbul',
+    label: 'Istanbul'
+  },
+  {
+    value: 'london',
+    label: 'London'
+  },
+  {
+    value: 'paris',
+    label: 'Paris'
+  }];
 
   const handleSearch = () => {
-    setStatus('loading')
-    var housesRef = firestore().collection('houses');
-    housesRef.where('title', '>=', search).where('title', '<=', search + '\uf8ff').get().then(data => {
-      setData(data.docs);
-      setStatus('success')
-    });
+    const options = {
+      route: searchRoute,
+      params: {
+        Name: search
+      }
+    }
+    props.handleSearch(options)
+  }
+
+  const resetFilters = () => {
+    const options = {
+      route: housesRoute
+    }
+    props.handleSearch(options)
   }
 
   const renderSwiper = (gallery, id) => (
@@ -54,30 +85,21 @@ export default function Search() {
   );
 
   const renderHouseItem = (item, id) => {
+    item.gallery = []
+    item.gallery.push(item.img)
     return (
-      <View style={Presets.listingItem}>
-        {item.gallery && console.log(item)}
-        {renderSwiper(item.gallery, item.id)}
-        <LinearGradient
-          colors={['#00000000', '#000000ff']}
-          style={Presets.sectionBody}>
-
-          <Text>{item.title}</Text>
-        </LinearGradient>
-        <View>
-          <Text style={Presets.houseRent}>{item.type}</Text>
-
-          <TouchableOpacity
-            style={Presets.homeHeartContainer}>
-            <Icon name="heart-o" size={20} color={Colors.silver} />
-          </TouchableOpacity>
-        </View>
-
+      <View style={[Presets.listingItem]}>
+        {item.gallery && renderSwiper(item.gallery, item.id)}
+        {item.offerType != "" && <Text style={Presets.houseRent}>{I18n.t(item.offerType)}</Text>}
         <TouchableOpacity
           style={Presets.listItemBody}
           onPress={() => Actions.push('House', { id: id })}>
+          <TouchableOpacity
+            style={[Presets.homeHeartContainer, { top: -20 }]}>
+            <Icon name="heart-o" size={20} color={Colors.silver} />
+          </TouchableOpacity>
           <Text style={[Presets.sectionTitle, Presets.colorSilver]}>
-            {item.title}
+            {item.Name}
           </Text>
           <Text style={[Presets.sectionTitle, Presets.colorBlack]}>
             ${item.price}
@@ -101,21 +123,21 @@ export default function Search() {
             <View style={[Presets.flexStart, Presets.alignCenter]}>
               <Icon name="bed" size={15} color={Colors.claret} />
               <Text style={[Presets.ph5, Presets.sectionActionsText]}>
-                {item.bedrooms} {I18n.t('beds')}
+                {item.bedroom} {I18n.t('beds')}
               </Text>
             </View>
 
             <View style={[Presets.flexStart, Presets.alignCenter]}>
               <Icon name="bath" size={15} color={Colors.claret} />
               <Text style={[Presets.ph5, Presets.sectionActionsText]}>
-                {item.bathrooms} {I18n.t('baths')}
+                {item.bathroom} {I18n.t('baths')}
               </Text>
             </View>
 
             <View style={[Presets.flexStart, Presets.alignCenter]}>
               <Icon name="car" size={15} color={Colors.claret} />
               <Text style={[Presets.ph5, Presets.sectionActionsText]}>
-                {item.parkings} {I18n.t('parkings')}
+                {item.parking} {I18n.t('parkings')}
               </Text>
             </View>
           </View>
@@ -124,48 +146,169 @@ export default function Search() {
     )
   }
 
-  useEffect(() => {
-    var housesRef = firestore().collection('houses');
-    async function getData() {
-      housesRef.where('area', '==', '1').get().then(data => {
-        setData(data.docs);
-        setStatus('success')
-      });
+  const handleSelectedOffer = (offerType) => {
+    if (selectedOffer == offerType) {
+      setSelectedOffer(null)
+    } else {
+      setSelectedOffer(offerType)
     }
-    getData();
-  }, [])
+  }
 
-  return <Layout title={I18n.t('search')}>
-    <ScrollView>
-      <View style={[Presets.fullScreen, Presets.container, Presets.justifyCenter, {paddingTop: 30}]}>
-        <View style={{ paddingTop: 10, paddingBottom: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <View style={{ width: '65%' }}>
+  const renderRoomNumbers = (key, title) => <View style={{ width: 80, marginRight: 10 }}>
+    <View style={{ marginTop: 10 }}>
+      <View>
+        <Text style={{ color: Colors.silver }}>{I18n.t(title)}</Text>
+        <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
+          <TextInput style={Presets.textField} onChangeText={(value) => setRoomNumbers({ ...roomNumbers, [key]: value })} />
+        </View>
+      </View>
+    </View>
+  </View>
 
-            <Text style={{ color: Colors.silver }}>{I18n.t('search')}</Text>
-            <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-              <TextInput style={Presets.textField} onChangeText={(value) => setSearch(value)} />
-            </View>
-          </View>
-          <View style={{ width: '29%', height: 50 }}>
-            <TouchableOpacity
-              style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}
-              onPress={() => handleSearch()}>
-              <Text
-                style={[
-                  Presets.colorWhite,
-                  Presets.btnText,
-                  Presets.bold,
-                  Presets.upperCase,
-                ]}>
-                {I18n.t('search')}
-              </Text>
-            </TouchableOpacity>
+  const handleFilters = () => {
+    setCollapsed(!collapsed)
+    let params = {}
+    Object.keys(roomNumbers).map(i => {
+      if (roomNumbers[i]) {
+        params[i] = roomNumbers[i]
+      }
+    })
+    params.price = priceValues.join()
+    if (selectedCity) {
+      params.location = selectedCity
+    }
+    if (selectedOffer) {
+      params.offerType = selectedOffer
+    }
+    const options = {
+      route: searchRoute,
+      params: params
+    }
+    props.handleSearch(options)
+  }
+
+  const renderFilters = () => <View>
+    <View style={[Presets.fieldMargin]}>
+      <View style={[Presets.verticalCenter, Presets.flexStart]}>
+        <Text style={{ color: Colors.silver }}>{I18n.t('offerType')}</Text>
+        <View style={[Presets.flexStart, { marginTop: 10, marginLeft: 10 }]}>
+          <TouchableOpacity style={[
+            Presets.buttonSelectItemContainer,
+            { backgroundColor: selectedOffer == 'rent' ? Colors.claret : Colors.white }
+          ]} onPress={() => handleSelectedOffer('rent')}>
+            <Text style={[
+              Presets.buttonSelectItem,
+              { color: selectedOffer == 'rent' ? Colors.white : Colors.claret }
+            ]}>{I18n.t('for_rent')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[
+            Presets.buttonSelectItemContainer,
+            { backgroundColor: selectedOffer == 'sale' ? Colors.claret : Colors.white }
+          ]} onPress={() => handleSelectedOffer('sale')}>
+            <Text style={[
+              Presets.buttonSelectItem,
+              { color: selectedOffer == 'sale' ? Colors.white : Colors.claret }
+            ]}>{I18n.t('for_sale')}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={{ marginTop: 30 }}>
+        <Text style={{ color: Colors.silver }}>{I18n.t('price')}</Text>
+        <View style={[Presets.spaceBetween, { marginTop: 10 }]}>
+          <Text style={{ color: Colors.silver }}>{priceValues[0]}</Text>
+          <Text style={{ color: Colors.silver }}>{priceValues[1]}</Text>
+        </View>
+        <View style={{ margin: 10 }}>
+          <MultiSlider
+            min={0}
+            max={100000}
+            // sliderLength={180}
+            onValuesChange={values => setPriceValues(values)}
+            minMarkerOverlapDistance={10}
+            step={1000}
+            values={priceValues}
+          />
+        </View>
+      </View>
+      <View style={Presets.flexStart}>
+        {renderRoomNumbers('kitchen', 'kitchens')}
+        {renderRoomNumbers('parking', 'parkings')}
+        {renderRoomNumbers('bedroom', 'bedrooms')}
+        {renderRoomNumbers('bathroom', 'bathrooms')}
+      </View>
+      <View style={Presets.spaceBetween}>
+      </View>
+    </View>
+    <View style={[Presets.fieldMargin]}>
+      <Text style={{ color: Colors.silver }}>City</Text>
+      <View style={{ width: '100%' }}>
+        <Picker
+          selectedValue={selectedCity}
+          // style={styles.picker}
+          onValueChange={(itemValue, itemIndex) => setSelectedCity(itemValue)}>
+          <Picker.Item style={{ alignSelf: 'center' }} label={I18n.t('all')} value="all" />
+          {cities.map(item =>
+            <Picker.Item style={{ alignSelf: 'center' }} label={item.value} value={item.value} />
+          )}
+        </Picker>
+      </View>
+    </View>
+    <TouchableOpacity
+      style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}
+      onPress={() => handleFilters()}>
+      <Text
+        style={[
+          Presets.colorWhite,
+          Presets.btnText,
+          Presets.bold,
+          Presets.upperCase,
+        ]}>
+        {I18n.t('apply_filters')}
+      </Text>
+    </TouchableOpacity>
+  </View>
+
+  const renderSearchForm = () => {
+    return <View>
+      <View style={[Presets.flexStart, Presets.alignCenter]}>
+        <View style={{ width: '80%' }}>
+          <Text style={{ color: Colors.silver }}>{I18n.t('search')}</Text>
+          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
+            <TextInput style={Presets.textField} onChangeText={(value) => setSearch(value)} />
           </View>
         </View>
-        {status === 'success' ?
-          data.map(item => renderHouseItem(item._data, item.id))
-          : <Loading />}
+        <TouchableOpacity
+          style={{ width: '20%', justifyCenter: 'center', alignItems: 'center', marginTop: 30 }}
+          onPress={() => handleSearch()}>
+          <Icon name="search" size={30} color={Colors.claret} />
+        </TouchableOpacity>
       </View>
-    </ScrollView>
-  </Layout>;
+      <Collapse isCollapsed={collapsed}>
+        <CollapseHeader>
+          <View style={[Presets.spaceBetween, { marginTop: 20, fontWeight: 'bold' }]}>
+            <Text style={{ color: Colors.claret }}>More filters</Text>
+            <TouchableOpacity onPress={() => resetFilters()}>
+              <Text>{I18n.t('reset_filters')}</Text>
+            </TouchableOpacity>
+          </View>
+        </CollapseHeader>
+        <CollapseBody>
+          {renderFilters()}
+        </CollapseBody>
+      </Collapse>
+    </View>
+  }
+
+  return <ScrollView>
+    <View style={[Presets.fullScreen, Presets.container, Presets.justifyCenter, { paddingTop: 30 }]}>
+      {renderSearchForm()}
+      {/* {props.data.map(item => console.log(item))} */}
+      <View style={{ marginTop: 30, borderTopWidth: 1, borderTopColor: Colors.claret, paddingTop: 20 }}>
+        {props.data.length > 0 ? props.data.map(item => renderHouseItem(item, item.id)) : <Text>No Results</Text>}
+      </View>
+      {/* {status === 'success' ?
+        data.map(item => renderHouseItem(item._data, item.id))
+        : <Loading />} */}
+    </View>
+  </ScrollView>
 }

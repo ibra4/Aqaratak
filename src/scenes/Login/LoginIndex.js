@@ -30,13 +30,36 @@ class LoginIndex extends Component {
   }
 
   loginUser(userData) {
-    auth()
-      .signInWithEmailAndPassword(userData.email, userData.password)
-      .then((res) => {
-        this.props.setUser(res.user)
-        Actions.push('Home');
-      })
-      .catch((error) => this.handleError(error));
+    // auth()
+    //   .signInWithEmailAndPassword(userData.email, userData.password)
+    //   .then((res) => {
+    //     this.props.setUser(res.user)
+    //     Actions.push('Home');
+    //   })
+    //   .catch((error) => this.handleError(error));
+    const URL='http://aqaratkqatar.com/Routing/web.php';
+    let response=  fetch(URL, {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/x-www-form-urlencoded',
+
+}),
+          body: "param1="+userData.email+"&param2="+userData.password,
+                              })
+                              .then((response) => response.json())
+                              .then((responseJson) => {
+                               console.log(responseJson);
+                              this.setState({
+                                              data: responseJson
+                                            })
+                              Actions.push('Home');
+                              })
+                              .catch((error) => {
+                                  console.error(error);
+                                      });
+
+console.log(this.state.data);
+    
   }
 
   renderTemplate() {

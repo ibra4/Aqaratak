@@ -16,7 +16,7 @@ export default function Layout({
     <SafeAreaView>
       <View style={[Presets.fullScreen, style.layout]}>
         <StatusBar hidden />
-        {header ? (
+        {/* {header ? (
           <ParallaxScroll
             renderHeader={({animatedValue}) => (
               <Header
@@ -37,7 +37,13 @@ export default function Layout({
           </ParallaxScroll>
         ) : (
           <View style={Presets.fullScreen}>{children}</View>
-        )}
+        )} */}
+        <Header
+                // animatedValue={animatedValue}
+                title={title}
+                slider={slider}
+              />
+              <View style={Presets.fullScreen}>{children}</View>
         <Footer />
       </View>
     </SafeAreaView>

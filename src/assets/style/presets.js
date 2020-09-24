@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {Colors} from '.';
+import { StyleSheet } from 'react-native';
+import { Colors } from '.';
 import spacing from './spacing';
 
 module.exports = StyleSheet.create({
@@ -33,6 +33,8 @@ module.exports = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     height: 50,
+    borderWidth: 1,
+    borderColor: Colors.claret
   },
   title: {
     fontSize: 18,
@@ -151,12 +153,6 @@ module.exports = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  sectionBody: {
-    position: 'absolute',
-    bottom: 15,
-    width: '100%',
-    padding: 10,
   },
   colorLime: {
     color: Colors.claret,
@@ -332,28 +328,73 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
   },
   socailicon: {
-    alignItems:"center",
-    width:"100%",
-    padding:20
+    alignItems: "center",
+    width: "100%",
+    padding: 20
   },
   socailicons: {
-    flexDirection:'row',
-    width:"100%",
-    alignItems:"center",
-    paddingRight:"10%",
-    paddingLeft:"10%",
-    paddingTop:"15%" ,
+    flexDirection: 'row',
+    width: "100%",
+    alignItems: "center",
+    paddingRight: "10%",
+    paddingLeft: "10%",
+    paddingTop: "15%",
   },
   Connecticon: {
-    alignItems:"center",
-    width:"100%",
-    margin:30
+    alignItems: "center",
+    width: "100%",
+    margin: 30
   },
   Connecticons: {
-    flexDirection:'row',
-    width:"100%",
-    alignItems:"center",
-    paddingRight:"10%",
-    paddingLeft:"10%",
+    flexDirection: 'row',
+    width: "100%",
+    alignItems: "center",
+    paddingRight: "10%",
+    paddingLeft: "10%",
   },
+  filterRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonSelectItemContainer: {
+    borderColor: Colors.claret,
+    borderWidth: 1,
+    height: 50,
+    width: 100,
+    paddingLeft: 10,
+    paddingRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+    borderRadius: 10
+  },
+  buttonSelectItem: {
+    color: Colors.claret,
+  },
+  houseTitle: {
+    color: Colors.white,
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  boxShadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  MessageInput: {
+    height: 200,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderColor: "#8C1B3D",
+    borderWidth: 0.25,
+    borderRadius: 10
+}
 });

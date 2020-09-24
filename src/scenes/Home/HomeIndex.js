@@ -67,7 +67,7 @@ class HomeIndex extends Component {
   }
 
   render() {
-    return <Layout header={false}>{this.renderTemplate()}</Layout>;
+    return <Layout header={true}>{this.renderTemplate()}</Layout>;
   }
 }
 

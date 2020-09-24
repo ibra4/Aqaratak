@@ -1,9 +1,27 @@
 /* */
-import {AsyncStorage, Platform} from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 
 import ImagePicker from 'react-native-image-picker';
 
 import storage from '@react-native-firebase/storage';
+import { url } from './routes';
+
+const getUrl = (options) => {
+  let requestUrl = url + '?action=' + options.route
+  if (options.params) {
+    Object.keys(options.params).map(i => {
+      requestUrl += '&' + i + '=' + options.params[i]
+    })
+  }
+  return requestUrl
+}
+
+const jsonToData = (data) => {
+  let urlData = Object.keys(data).map(function (k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+  }).join('&')
+  return urlData
+}
 
 const options = {
   title: 'Select Image',
@@ -50,3 +68,21 @@ export const ImageUploader = () =>
       });
     }
   });
+
+export const get = async (options) => {
+  const url = getUrl(options);
+  console.log(url)
+  const response = await fetch(url)
+  return response
+}
+
+export const post = async (options) => {
+  const url = getUrl(options);
+  console.log(url)
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: jsonToData(options.body)
+  })
+  return response
+}

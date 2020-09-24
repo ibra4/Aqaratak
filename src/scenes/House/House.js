@@ -29,14 +29,15 @@ const imageWidth = dimensions.width;
 export default function House({props}) {
   const searchCarouselRef = createRef('');
 
-  const renderTopHeader = (data) => (
+  const renderTopHeader = (data) => {
+    return (
     <View>
       <Swiper
         showsButtons={false}
         style={{height: imageHeight}}
         dotColor={Colors.white}
         activeDotColor={Colors.claret}>
-        {props.data.images.map((item, key) => (
+        {data.gallery.map((item, key) => (
           <Image
             source={{uri: item}}
             style={{height: imageHeight, width: imageWidth}}
@@ -52,8 +53,8 @@ export default function House({props}) {
         <LinearGradient
           colors={['#00000000', '#000000ff']}
           style={Presets.sectionBody}>
-          <Text style={style.houseRent}>{I18n.t(data.type)}</Text>
-          <Text style={style.houseTitle}>{data.name}</Text>
+          <Text style={style.houseRent}>{I18n.t(data.offerType)}</Text>
+          <Text style={style.houseTitle}>{data.Name}</Text>
           <View style={Presets.spaceBetween}>
             <View style={Presets.flexStart}>
               <Text style={Presets.colorWhite}>{data.location}</Text>
@@ -68,7 +69,7 @@ export default function House({props}) {
         </LinearGradient>
       </View>
     </View>
-  );
+  )};
 
   const renderBody = (data) => (
     <View>
@@ -87,7 +88,7 @@ export default function House({props}) {
             color={Colors.claret}
           />
           <Text style={Presets.colorSilver}>
-            {data.beds} {I18n.t('beds')}
+            {data.bedroom} {I18n.t('beds')}
           </Text>
         </View>
         <View style={Presets.verticalCenter}>
@@ -98,7 +99,7 @@ export default function House({props}) {
             color={Colors.claret}
           />
           <Text style={Presets.colorSilver}>
-            {data.baths} {I18n.t('baths')}
+            {data.bathroom} {I18n.t('baths')}
           </Text>
         </View>
         <View style={Presets.verticalCenter}>
@@ -109,7 +110,7 @@ export default function House({props}) {
             color={Colors.claret}
           />
           <Text style={Presets.colorSilver}>
-            {data.kitchens} {I18n.t('kitchens')}
+            {data.kitchen} {I18n.t('kitchens')}
           </Text>
         </View>
         <View style={Presets.verticalCenter}>
@@ -120,7 +121,7 @@ export default function House({props}) {
             color={Colors.claret}
           />
           <Text style={Presets.colorSilver}>
-            {data.parkings} {I18n.t('parkings')}
+            {data.parking} {I18n.t('parkings')}
           </Text>
         </View>
       </View>
@@ -156,9 +157,7 @@ export default function House({props}) {
       </View>
       <View style={Presets.container}>
         <Text style={[Presets.fontSize20]}>{I18n.t('description')}</Text>
-        <Text style={Presets.colorSilver}>
-          {I18n.locale == 'ar' ? data.description_ar : data.description}
-        </Text>
+        <Text style={Presets.colorSilver}>{data.description}</Text>
       </View>
     </View>
   );
@@ -188,7 +187,7 @@ export default function House({props}) {
     return (
       <TouchableOpacity
         style={Presets.searchItem}
-        onPress={() => Actions.push('Gallery')}>
+        onPress={() => Actions.push('Gallery', {images: props.data.gallery})}>
         <Image source={{uri: item}} style={{height: '100%', width: '100%'}} />
       </TouchableOpacity>
     );
@@ -202,7 +201,7 @@ export default function House({props}) {
       <Carousel
         ref={searchCarouselRef}
         inactiveSlideScale={1}
-        data={data.images}
+        data={data.gallery}
         activeSlideAlignment="start"
         renderItem={renderGalaryItem}
         sliderHeight={150}
@@ -213,7 +212,7 @@ export default function House({props}) {
     </View>
   );
 
-  const renderSpacing = () => <Text style={{padding: 5}}></Text>;
+  const renderSpacing = () => <Text style={{padding: 40}}></Text>;
 
   const renderLocation = (location) => (
     <MapView
@@ -272,13 +271,13 @@ export default function House({props}) {
       {renderTopHeader(props.data)}
       {renderBody(props.data)}
       {renderGallerySection(props.data)}
-      {renderProperties(
+      {/* {renderProperties(
         I18n.locale == 'ar'
           ? props.data.propertyDetails_ar
           : props.data.propertyDetails,
-      )}
+      )} */}
       {/* {renderLocation(props.data.location)} */}
-      {renderContact(props.data.owner)}
+      {/* {renderContact(props.data.owner)} */}
       {renderSpacing()}
     </ScrollView>
   );
