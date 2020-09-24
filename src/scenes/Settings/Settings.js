@@ -13,7 +13,6 @@ import {Presets, Colors, Spacing} from '../../assets/style';
 
 import I18n from '../../I18n';
 import RNRestart from 'react-native-restart';
-import Layout from '../../components/layout/default/Layout';
 import Loading from '../../components/Loading';
 
 export default function Settings() {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, Picker } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, Picker, Alert } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -45,13 +45,17 @@ export default function Search({ props }) {
   }];
 
   const handleSearch = () => {
-    const options = {
-      route: searchRoute,
-      params: {
-        Name: search
+    if (search && search != '') {
+      const options = {
+        route: searchRoute,
+        params: {
+          Name: search
+        }
       }
+      props.handleSearch(options)
+    } else {
+      Alert.alert(I18n.t('error'), I18n.t('you_shoud_enter_a_text_in_search_field'))
     }
-    props.handleSearch(options)
   }
 
   const resetFilters = () => {

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Text, I18nManager} from 'react-native';
+import {Text} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
-import Layout from '../../components/layout/default/Layout';
+import Layout from '../../components/layout/parallax/Layout';
 import Loading from '../../components/Loading';
 import Home from './Home';
 

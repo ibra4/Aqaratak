@@ -5,16 +5,23 @@ import {
     TextInput,
     TouchableOpacity,
     ScrollView,
+    Alert,
 } from 'react-native';
 import { Presets, Colors } from '../../assets/style';
 import I18n from '../../I18n'
 import Layout from '../../components/layout/parallax/Layout';
 
 import firestore from '@react-native-firebase/firestore';
+import { post } from '../../providers/provider';
+import { contactUsRoute } from '../../providers/routes';
+import { Actions } from 'react-native-router-flux';
+import LoadingSmall from '../../components/LoadingSmall';
+import Title from '../../components/Title';
 
 export default function Contact() {
 
     const [data, setData] = useState({})
+    const [loading, setLoading] = useState(false)
 
     const setValue = (name, value) => {
         let currentData = data;
@@ -22,17 +29,26 @@ export default function Contact() {
         setData(currentData);
     };
 
-    const handleSubmit = () => {
-        firestore()
-            .collection('contact')
-            .add(data)
-            .then((data) => console.log("Success", data))
-            .catch((error) => console.log("Error", error));
-        console.log(data)
+    const handleSubmit = async () => {
+        setLoading(true)
+        const options = {
+            route: contactUsRoute
+        }
+        const response = await post(options);
+        await response.json().then(json => {
+            setLoading(false)
+            if (json.status == 'success') {
+                Alert.alert(I18n.t('success'), I18n.t('message_sent_successfully'))
+                Actions.push("Home")
+            } else {
+                Alert.alert(I18n.t('error'), I18n.t('ops_error'))
+            }
+        })
     }
 
     return (
-        <Layout title={I18n.t('contact_us')}>
+        <Layout>
+            <Title>{I18n.t('contact_us')}</Title>
             <ScrollView>
                 <View
                     style={[Presets.fullScreen, Presets.container, Presets.justifyCenter]}>
@@ -65,6 +81,9 @@ export default function Contact() {
                         <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
                             <TextInput style={[Presets.textField, { height: 100 }]} multiline={true} onChangeText={(value) => setValue('message', value)} />
                         </View>
+                    </View>
+                    <View style={{marginTop: 10}}>
+                    {loading && <LoadingSmall />}
                     </View>
                     <TouchableOpacity
                         style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}

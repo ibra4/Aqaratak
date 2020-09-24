@@ -4,10 +4,12 @@ import I18n from '../../I18n'
 
 import Layout from '../../components/layout/parallax/Layout'
 import { Presets, Colors } from '../../assets/style'
+import Title from '../../components/Title'
 
 function About() {
     return (
-        <Layout title={I18n.t('about_us')}>
+        <Layout>
+            <Title>{I18n.t('about_us')}</Title>
             <ScrollView>
 
                 {I18n.locale == 'en' ? <View

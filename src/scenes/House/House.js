@@ -157,7 +157,7 @@ export default function House({props}) {
       </View>
       <View style={Presets.container}>
         <Text style={[Presets.fontSize20]}>{I18n.t('description')}</Text>
-        <Text style={Presets.colorSilver}>{data.description}</Text>
+        <Text style={Presets.colorSilver}>{data.description}ssss</Text>
       </View>
     </View>
   );

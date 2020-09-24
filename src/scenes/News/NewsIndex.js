@@ -141,7 +141,7 @@ class NewsIndex extends React.Component {
   }
 
   render() {
-    return <Layout title={I18n.t('news')}>{this.renderTemplate()}</Layout>;
+    return <Layout>{this.renderTemplate()}</Layout>;
   }
 }
 

@@ -16,12 +16,6 @@ export const searchKeyword = '&searchKeyword=';
 /* Home */
 export const homepageRoute = 'home';
 
-/* Contact Us */
-export const contactUsRoute = 'contact-us';
-
-export const newsRoute = 'news';
-
-
 /* Houses */
 export const housesRoute = 'show_house';
 
@@ -33,3 +27,6 @@ export const houseDetailsRoute = "Find_house"
 
 /* Send Message to admin */
 export const MessageRoute = "Message"
+
+/* Contact */
+export const contactUsRoute = "Contact"

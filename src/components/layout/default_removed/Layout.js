@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, SafeAreaView, Text, StyleSheet, StatusBar} from 'react-native';
-import Footer from '../Footer';
+import Footer from '../parallax/Footer';
 import Header from './Header';
 import {Presets, Colors} from '../../../assets/style';
 

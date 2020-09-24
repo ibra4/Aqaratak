@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Colors, Presets, Spacing } from '../../assets/style';
+import { Colors, Presets, Spacing } from '../../../assets/style';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 
-import I18n from '../../I18n'
+import I18n from '../../../I18n'
 
 import { useSelector } from 'react-redux'
 

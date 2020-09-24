@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import I18n from '../../I18n';
-import Footer from '../../components/layout/Footer';
+import Footer from '../../components/layout/parallax/Footer';
 
 import auth from '@react-native-firebase/auth';
 

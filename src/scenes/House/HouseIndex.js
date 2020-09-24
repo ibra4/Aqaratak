@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {Text} from 'react-native'
-import Layout from '../../components/layout/default/Layout';
+import Layout from '../../components/layout/parallax/Layout';
 import House from './House';
 import {Actions} from 'react-native-router-flux';
-import {connect} from 'react-redux';
 import {get} from '../../providers/provider'
 import {houseDetailsRoute} from '../../providers/routes'
 import Loading from '../../components/Loading'
