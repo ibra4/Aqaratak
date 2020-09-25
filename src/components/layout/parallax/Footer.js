@@ -29,14 +29,23 @@ export default function Footer() {
         <Icon name="search" size={20} color={Colors.silver} />
         <Text style={{ color: Colors.silver }}>{I18n.t('search')}</Text>
       </TouchableOpacity>
-      {/* {!loggedIn && <TouchableOpacity style={style.footerItem} onPress={() => goTo("Login")}>
-        <Icon name="user" size={20} color={Colors.silver} />
-        <Text style={{ color: Colors.silver }}>{I18n.t('profile')}</Text>
-      </TouchableOpacity>} */}
-      {!loggedIn && <TouchableOpacity style={style.footerItem} onPress={() => goTo("HouseForm")}>
-        <Icon name="user" size={20} color={Colors.silver} />
-        <Text style={{ color: Colors.silver }}>{I18n.t('add_new_house')}</Text>
-      </TouchableOpacity>}
+      {!loggedIn &&
+        <TouchableOpacity style={style.footerItem} onPress={() => goTo("Login")}>
+          <Icon name="user" size={20} color={Colors.silver} />
+          <Text style={{ color: Colors.silver }}>{I18n.t('profile')}</Text>
+        </TouchableOpacity>}
+      {/* {loggedIn &&
+        <TouchableOpacity style={style.footerItem} onPress={() => goTo("HouseForm")}>
+          <Icon name="user" size={20} color={Colors.silver} />
+          <Text style={{ color: Colors.silver }}>{I18n.t('add_new_house')}</Text>
+        </TouchableOpacity>} */}
+      {loggedIn &&
+        <TouchableOpacity style={style.footerItem}
+          onPress={() => goTo("HouseForm")}
+        >
+          <Icon name="plus" size={20} color={Colors.silver} />
+          <Text style={{ color: Colors.silver }}>{I18n.t('add')}</Text>
+        </TouchableOpacity>}
       {loggedIn && <TouchableOpacity style={style.footerItem}
         onPress={() => goTo("Offers")}
       >

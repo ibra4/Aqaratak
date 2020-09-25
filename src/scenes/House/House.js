@@ -53,7 +53,7 @@ export default function House({props}) {
         <LinearGradient
           colors={['#00000000', '#000000ff']}
           style={Presets.sectionBody}>
-          <Text style={style.houseRent}>{I18n.t(data.offerType)}</Text>
+          {data.offerType != "" && <Text style={style.houseRent}>{I18n.t(data.offerType)}</Text>}
           <Text style={style.houseTitle}>{data.Name}</Text>
           <View style={Presets.spaceBetween}>
             <View style={Presets.flexStart}>

@@ -335,7 +335,7 @@ module.exports = StyleSheet.create({
   socailicons: {
     flexDirection: 'row',
     width: "100%",
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingRight: "10%",
     paddingLeft: "10%",
     paddingTop: "15%",
@@ -396,5 +396,5 @@ module.exports = StyleSheet.create({
     borderColor: "#8C1B3D",
     borderWidth: 0.25,
     borderRadius: 10
-}
+  }
 });

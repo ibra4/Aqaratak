@@ -61,6 +61,7 @@ export default {
   success: 'Success',
   message_sent_successfully: 'Message sent successfully',
   ops_error: 'Opps... Something went wrong, Please contact the system administrator',
+  user_registered_successfully: "User registered successfully",
   error: 'Error',
   empty: 'empty',
   empty: 'empty',

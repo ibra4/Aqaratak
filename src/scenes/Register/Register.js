@@ -53,12 +53,14 @@ export default function Register({ props }) {
         'Content-Type': 'application/x-www-form-urlencoded',
 
       }),
-      body: "name=" + userData.username + "&email=" + userData.email + "&password=" + userData.password + "&phone=" + userData.Phone + "&status=0",
+      body: "&name=" + userData.username + "&email=" + userData.email + "&password=" + userData.password + "&phone=" + userData.Phone + "&status=0",
     })
       .then((response) => response.json())
       .then((responseJson) => {
         setLoading(false)
-        if (responseJson.status !== "success") {
+        console.log(responseJson)
+        if (responseJson.status == "success") {
+          Alert.alert(I18n.t('success'), I18n.t('user_registered_successfully'))
           Actions.push("Login")
         } else {
           Alert.alert(I18n.t('error', I18n.t('register_field')))
@@ -84,7 +86,7 @@ export default function Register({ props }) {
           <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
             <TextInput
               placeholder="Phone"
-              secureTextEntry={true}
+              // secureTextEntry={true}
               style={Presets.textField}
               onChangeText={(value) => handleUserData('Phone', value)}
             />

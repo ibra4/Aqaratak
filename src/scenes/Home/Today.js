@@ -45,12 +45,6 @@ export default function Today({ data, likeHouse }) {
         {renderSwiper(gallery, item.id)}
         <View>
           <Text style={Presets.houseRent}>{item.type}</Text>
-
-          <TouchableOpacity
-            style={Presets.homeHeartContainer}
-            onPress={() => likeHouse()}>
-            <Icon name="heart-o" size={20} color={Colors.silver} />
-          </TouchableOpacity>
         </View>
 
         <TouchableOpacity

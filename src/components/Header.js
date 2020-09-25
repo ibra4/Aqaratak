@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
-import {Colors} from '../assets/style';
+import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
+import { Colors } from '../assets/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
 import I18n from '../I18n'
 
-export default function Header({title}) {
+export default function Header({ title }) {
   return (
     <View style={[style.headerConrainer]}>
       <TouchableOpacity style={style.w25} onPress={() => Actions.pop()}>
@@ -14,9 +14,9 @@ export default function Header({title}) {
       </TouchableOpacity>
       <Text style={style.headerTitle}>
         <Image
-                source={require('../assets/images/logo.png')}
-                style={{height: 50, width: 150}}
-              />
+          source={require('../assets/images/logo.png')}
+          style={{ height: 50, width: 150 }}
+        />
       </Text>
       <View style={style.w25}></View>
     </View>

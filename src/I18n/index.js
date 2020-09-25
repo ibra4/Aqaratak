@@ -4,6 +4,8 @@ import ar from './locales/ar';
 
 I18n.fallbacks = false;
 
+I18n.fallbacks = true;
+
 I18n.translations = {
     en,
     ar
