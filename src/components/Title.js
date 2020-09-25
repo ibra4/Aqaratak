@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Presets, Colors } from '../assets/style'
 
-function Title({children}) {
+function Title({ children }) {
     return (
         <View style={style.positionRelative}>
             <Text style={style.sceneTitle}>{children}</Text>
@@ -27,7 +27,7 @@ const style = StyleSheet.create({
         backgroundColor: Colors.claret,
         position: 'absolute',
         bottom: 5,
-        right: 15
+        left: 15
     }
 })
 

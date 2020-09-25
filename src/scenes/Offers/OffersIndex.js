@@ -1,11 +1,13 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { houseDetailsRoute } from '../../providers/routes'
+import { searchRoute } from '../../providers/routes'
 import { get } from '../../providers/provider'
 import Layout from '../../components/layout/parallax/Layout'
 import Loading from '../../components/Loading'
 import Offers from './Offers'
+import Title from '../../components/Title'
+import I18n from '../../I18n'
 
 export class OffersIndex extends React.Component {
 
@@ -35,14 +37,14 @@ export class OffersIndex extends React.Component {
 
     async getData() {
         const options = {
-            route: houseDetailsRoute,
+            route: searchRoute,
             params: {
-                id: this.props.user_id
+                id_user: this.props.user_id
             }
         }
         const response = await get(options)
         await response.json().then(data => {
-            this.handleResponse(response, json)
+            this.handleResponse(response, data)
         })
     }
 
@@ -60,7 +62,10 @@ export class OffersIndex extends React.Component {
     }
 
     render() {
-        return <Layout>{this.renderTemplate()}</Layout>
+        return <Layout>
+            <Title>{I18n.t('My_Offers')}</Title>
+            {this.renderTemplate()}
+        </Layout>
     }
 }
 
