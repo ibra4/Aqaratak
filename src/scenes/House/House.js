@@ -20,6 +20,7 @@ import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import LinearGradient from 'react-native-linear-gradient';
 
 import I18n from '../../I18n';
+import { useSelector } from 'react-redux';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const dimensions = Dimensions.get('window');
@@ -28,6 +29,7 @@ const imageWidth = dimensions.width;
 
 export default function House({props}) {
   const searchCarouselRef = createRef('');
+  const user_id = useSelector(state => state.user.user.id)
 
   const renderTopHeader = (data) => {
     return (
@@ -46,7 +48,7 @@ export default function House({props}) {
       </Swiper>
       <TouchableOpacity
         style={Presets.homeHeartContainer}
-        onPress={() => props.likeHouse()}>
+        onPress={() => props.likeHouse(data.id, user_id)}>
         <Icon name="heart-o" size={20} color={Colors.silver} />
       </TouchableOpacity>
       <View style={{}}>
