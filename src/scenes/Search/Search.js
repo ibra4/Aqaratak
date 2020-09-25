@@ -98,10 +98,6 @@ export default function Search({ props }) {
         <TouchableOpacity
           style={Presets.listItemBody}
           onPress={() => Actions.push('House', { id: id })}>
-          <TouchableOpacity
-            style={[Presets.homeHeartContainer, { top: -20 }]}>
-            <Icon name="heart-o" size={20} color={Colors.silver} />
-          </TouchableOpacity>
           <Text style={[Presets.sectionTitle, Presets.colorSilver]}>
             {item.Name}
           </Text>
@@ -226,7 +222,6 @@ export default function Search({ props }) {
           <MultiSlider
             min={0}
             max={100000}
-            // sliderLength={180}
             onValuesChange={values => setPriceValues(values)}
             minMarkerOverlapDistance={10}
             step={1000}
@@ -306,13 +301,9 @@ export default function Search({ props }) {
   return <ScrollView>
     <View style={[Presets.fullScreen, Presets.container, Presets.justifyCenter, { paddingTop: 30 }]}>
       {renderSearchForm()}
-      {/* {props.data.map(item => console.log(item))} */}
       <View style={{ marginTop: 30, borderTopWidth: 1, borderTopColor: Colors.claret, paddingTop: 20 }}>
         {props.data.length > 0 ? props.data.map(item => renderHouseItem(item, item.id)) : <Text>No Results</Text>}
       </View>
-      {/* {status === 'success' ?
-        data.map(item => renderHouseItem(item._data, item.id))
-        : <Loading />} */}
     </View>
   </ScrollView>
 }

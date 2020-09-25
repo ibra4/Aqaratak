@@ -7,34 +7,60 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import Swiper from 'react-native-swiper';
 
-import {Presets, Colors} from '../../assets/style';
+import { Presets, Colors } from '../../assets/style';
 import Highlights from './Highlights';
 import Searches from './Searches';
 import Today from './Today';
-import {screenWidth, imageHeight16} from '../../assets/style/dimensions';
+import { screenWidth, imageHeight16 } from '../../assets/style/dimensions';
 
 import I18n from '../../I18n';
 
-function Home({props}) {
-  const paddingSpace = () => <Text style={{padding: 20}}></Text>;
+const searches = [
+  {
+    name: 'London',
+    image:
+      'https://q-cf.bstatic.com/images/hotel/max1024x768/207/207602915.jpg',
+  },
+  {
+    name: 'Paris',
+    image:
+      'https://q4g9y5a8.rocketcdn.me/wp-content/uploads/2020/02/home-banner-2020-02-min.jpg',
+  },
+  {
+    name: 'Amman',
+    image:
+      'https://q-cf.bstatic.com/images/hotel/max1024x768/207/207602915.jpg',
+  },
+  {
+    name: 'Dubai',
+    image: 'https://i.pinimg.com/originals/38/d7/5b/38d75b985d9d08ce0959201f8198f405.jpg'
+  },
+  {
+    name: 'Zarqa',
+    image: 'https://lh3.googleusercontent.com/proxy/p6ypC6t33F_Hq4dUYPV6d145n0klKx0BM3e64sbwvTApy7TQlFqZmHJIYzfFxFleyFdEL_EFAalvxc4p8I2EQALIM9jByXyehY5dEUXZjLQPYm4rOl-ZEQjr567u4oc5QwLcfXXxTsuqGg'
+  }
+]
 
-  const renderTopHeader = (images) => (
+function Home({ props }) {
+  const paddingSpace = () => <Text style={{ padding: 80 }}></Text>;
+
+  const renderTopHeader = (data) => (
     <View>
       <View style={Presets.relative}>
         <Swiper
-          style={{height: imageHeight16}}
+          style={{ height: imageHeight16 }}
           dotColor={Colors.white}
           activeDotColor={Colors.claret}
           showsButtons={false}>
-          {images.map((item, key) => {
+          {data.map((item, key) => {
             return (
               <Image
                 key={key}
-                source={{uri: item}}
-                style={{height: imageHeight16, width: screenWidth}}
+                source={{ uri: item.img }}
+                style={{ height: imageHeight16, width: screenWidth }}
               />
             );
           })}
@@ -52,10 +78,11 @@ function Home({props}) {
 
   return (
     <ScrollView>
-      {renderTopHeader(props.data.mainSlider)}
-      <Highlights data={props.data.highlights} />
-      <Searches data={props.data.searches} />
-      <Today likeHouse={props.likeHouse} data={props.data.today} />
+      {console.log(props.data)}
+      {renderTopHeader(props.data)}
+      <Highlights data={props.data} />
+      <Searches data={searches} />
+      <Today likeHouse={props.likeHouse} data={props.data} />
       {paddingSpace()}
     </ScrollView>
   );

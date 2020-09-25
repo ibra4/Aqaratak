@@ -1,15 +1,17 @@
-import React, {Component} from 'react';
-import {Text} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import React, { Component } from 'react';
+import { Text } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import Layout from '../../components/layout/parallax/Layout';
 import Loading from '../../components/Loading';
 import Home from './Home';
 
-import {homeData} from '../../assets/testData';
-import {homeData_ar} from '../../assets/testData_ar';
+import { homeData } from '../../assets/testData';
+import { homeData_ar } from '../../assets/testData_ar';
 
 import I18n from '../../I18n';
+import { get } from '../../providers/provider';
+import { housesRoute } from '../../providers/routes';
 
 class HomeIndex extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ class HomeIndex extends Component {
 
     this.state = {
       data: {},
-      status: 'success',
+      status: 'loading',
     };
   }
 
@@ -27,10 +29,10 @@ class HomeIndex extends Component {
   }
 
   handleResponse(response, json) {
-    switch (response.status) {
-      case 200:
+    switch (json.status) {
+      case 'success':
         this.setState({
-          data: json,
+          data: json.data,
           status: 'success',
         });
         break;
@@ -41,9 +43,16 @@ class HomeIndex extends Component {
     }
   }
 
-  getData() {
+  async getData() {
     const data = I18n.locale == 'ar' ? homeData_ar : homeData;
-    this.setState({data: data});
+    this.setState({ data: data });
+    const options = {
+      route: housesRoute
+    }
+    const response = await get(options)
+    await response.json().then(data => {
+      this.handleResponse(response, data)
+    })
   }
 
   handleHouseLike() {
@@ -55,7 +64,7 @@ class HomeIndex extends Component {
     switch (status) {
       case 'success':
         const props = {
-          data: I18n.locale == 'ar' ? homeData_ar : homeData,
+          data: this.state.data,
           likeHouse: this.handleHouseLike,
         };
         return <Home props={props} />;

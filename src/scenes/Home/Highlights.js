@@ -19,13 +19,13 @@ export default function Highlights({ data }) {
         onPress={() => Actions.push('House', { id: item.id })}
         style={Presets.borderRadius15}>
         <Image
-          source={{ uri: item.image }}
+          source={{ uri: item.img }}
           style={{ height: imageHeight16, width: screenWidth }}
         />
         <LinearGradient
           colors={['#00000000', '#000000ff']}
           style={Presets.sectionBody}>
-          <Text style={Presets.sectionTitle}>{item.name}</Text>
+          <Text style={Presets.sectionTitle}>{item.Name}</Text>
 
           <View style={Presets.spaceBetween}>
             <View style={Presets.flexStart}>
@@ -53,7 +53,7 @@ export default function Highlights({ data }) {
             <Text style={Presets.sectionTitle}>${item.price}</Text>
           </View>
         </LinearGradient>
-        <Text style={Presets.houseRent}>{I18n.t(item.type)}</Text>
+        <Text style={Presets.houseRent}>{I18n.t(item.offerType)}</Text>
       </TouchableOpacity>
     );
   };

@@ -26,8 +26,8 @@ export default function index() {
   return (
     <Router>
       <Stack key="root">
-        {loggedIn && <Scene key="Offers" component={OffersIndex} hideNavBar />}
         <Scene key="Home" component={HomeIndex} hideNavBar />
+        {loggedIn && <Scene key="Offers" component={OffersIndex} hideNavBar />}
         {!loggedIn && (
           <Scene key="Login" component={LoginIndex} hideNavBar />
         )}

@@ -30,3 +30,6 @@ export const MessageRoute = "Message"
 
 /* Contact */
 export const contactUsRoute = "Contact"
+
+/* Favorite */
+export const favouriteUsRoute = "Favorite"

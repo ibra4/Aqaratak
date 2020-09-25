@@ -1,41 +1,48 @@
 import React from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Presets, Colors} from '../../assets/style';
-import {Actions} from 'react-native-router-flux';
-import {imageHeight16, imageWidth} from '../../assets/style/dimensions';
+import { Presets, Colors } from '../../assets/style';
+import { Actions } from 'react-native-router-flux';
+import { imageHeight16, imageWidth } from '../../assets/style/dimensions';
 
 import I18n from '../../I18n';
 
-export default function Today({data, likeHouse}) {
-  const renderSwiper = (gallery, id) => (
-    <Swiper
-      style={{
-        height: imageHeight16,
-      }}
-      dotColor={Colors.white}
-      activeDotColor={Colors.claret}
-      showsButtons={false}>
-      {gallery.map((item, key) => {
-        return (
-          <TouchableOpacity
-            key={key}
-            onPress={() => Actions.push('House', {id: id})}>
-            <Image
-              source={{uri: item}}
-              style={{height: imageHeight16, width: imageWidth}}
-            />
-          </TouchableOpacity>
-        );
-      })}
-    </Swiper>
-  );
+export default function Today({ data, likeHouse }) {
 
-  const renderTodayItem = ({item}) => {
+  const renderSwiper = (gallery, id) => {
+    return (
+      <Swiper
+        style={{
+          height: imageHeight16,
+        }}
+        dotColor={Colors.white}
+        activeDotColor={Colors.claret}
+        showsButtons={false}>
+        {gallery.map((item, key) => {
+          return (
+            <TouchableOpacity
+              key={key}
+              onPress={() => Actions.push('House', { id: id })}>
+              <Image
+                source={{ uri: item }}
+                style={{ height: imageHeight16, width: imageWidth }}
+              />
+            </TouchableOpacity>
+          );
+        })}
+      </Swiper>
+    )
+  };
+
+  const renderTodayItem = ({ item }) => {
+    let gallery = [];
+    gallery.push(item.img)
+    gallery.push(item.img)
+    gallery.push(item.img)
     return (
       <View style={Presets.listingItem}>
-        {renderSwiper(item.gallery, item.id)}
+        {renderSwiper(gallery, item.id)}
         <View>
           <Text style={Presets.houseRent}>{item.type}</Text>
 
@@ -48,7 +55,7 @@ export default function Today({data, likeHouse}) {
 
         <TouchableOpacity
           style={Presets.listItemBody}
-          onPress={() => Actions.push('House', {id: item.id})}>
+          onPress={() => Actions.push('House', { id: item.id })}>
           <Text style={[Presets.sectionTitle, Presets.colorBlack]}>
             ${item.price}
           </Text>
