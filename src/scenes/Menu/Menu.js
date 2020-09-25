@@ -7,10 +7,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import I18n from '../../I18n';
 import Footer from '../../components/layout/parallax/Footer';
 
-import auth from '@react-native-firebase/auth';
-
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../actions';
+import { setStorageItem } from '../../providers/provider';
 
 export default function Menu() {
 
@@ -19,17 +18,10 @@ export default function Menu() {
   const dispatch = useDispatch();
 
   const logoutUser = (userData) => {
-    // auth()
-    //   .signOut()
-    //   .then((res) => {
-
-        dispatch(logout())
-        Actions.push('Home');
-        // store userdata in device storage
-        // store userdata in redux
-        // this.props.setUser(res);
-      // })
-      // .catch((error) => this.handleError(error));
+    setStorageItem('user', null).then(() => {
+      dispatch(logout())
+      Actions.push('Home');
+    })
   }
 
   return (
@@ -156,42 +148,42 @@ export default function Menu() {
         </TouchableOpacity>}
 
         <View style={Presets.socailicons}>
-        <TouchableOpacity
+          <TouchableOpacity
           // onPress={() => logoutUser()}
           >
-          <View style={Presets.socailicon}>
-            <Icon name="whatsapp" size={30} color={Colors.Whatsapp} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
+            <View style={Presets.socailicon}>
+              <Icon name="whatsapp" size={30} color={Colors.Whatsapp} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
           // onPress={() => logoutUser()}
           >
-          <View style={Presets.socailicon}>
-            <Icon name="instagram" size={30} color={Colors.Instagram} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
+            <View style={Presets.socailicon}>
+              <Icon name="instagram" size={30} color={Colors.Instagram} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
           // onPress={() => logoutUser()}
           >
-          <View style={Presets.socailicon}>
-            {/* <Icon name="facebook" size={20} color={Colors.claret} /> */}
-            <Icon name="facebook" size={30} color={Colors.Facebook} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
+            <View style={Presets.socailicon}>
+              {/* <Icon name="facebook" size={20} color={Colors.claret} /> */}
+              <Icon name="facebook" size={30} color={Colors.Facebook} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
           // onPress={() => logoutUser()}
           >
-          <View style={Presets.socailicon}>
-            <Icon name="twitter" size={30} color={Colors.twitter} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
+            <View style={Presets.socailicon}>
+              <Icon name="twitter" size={30} color={Colors.twitter} />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
           // onPress={() => logoutUser()}
           >
-          <View style={Presets.socailicon}>
-            <Icon name="snapchat-ghost" size={30} color={Colors.Snapchat} />
-          </View>
-        </TouchableOpacity>
+            <View style={Presets.socailicon}>
+              <Icon name="snapchat-ghost" size={30} color={Colors.Snapchat} />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
       <Footer />

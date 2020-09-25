@@ -5,9 +5,11 @@ import auth from '@react-native-firebase/auth';
 
 import I18n from '../../I18n';
 import { Actions } from 'react-native-router-flux';
-import { connect, useDispatch} from 'react-redux';
+import { connect } from 'react-redux';
 
 import { setUser } from '../../actions';
+import { Alert } from 'react-native';
+import { setStorageItem } from '../../providers/provider';
 
 class LoginIndex extends Component {
   constructor(props) {
@@ -15,7 +17,6 @@ class LoginIndex extends Component {
 
     this.state = {
       status: 'success',
-      
     };
 
     this.loginUser = this.loginUser.bind(this);
@@ -32,42 +33,38 @@ class LoginIndex extends Component {
   }
 
   loginUser(userData) {
-    // auth()
-    //   .signInWithEmailAndPassword(userData.email, userData.password)
-    //   .then((res) => {
-    //     this.props.setUser(res.user)
-    //     Actions.push('Home');
-    //   })
-    //   .catch((error) => this.handleError(error));
-    console.log(userData);
-    console.log("phone="+userData.email+"&password="+userData.password);
-    const URL='http://aqaratkqatar.com/Routing/web.php?action=LoginUser';
-    let response=  fetch(URL, {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/x-www-form-urlencoded',
+    this.setState({ status: 'loading' })
+    const URL = 'http://aqaratkqatar.com/Routing/web.php?action=LoginUser';
+    let response = fetch(URL, {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded',
 
-}),
-          body: "phone="+userData.email+"&password="+userData.password,
-                              })
-                              .then((response) => response.json())
-                              .then((responseJson) => {
-                               console.log(responseJson);
-                               this.props.setUser(userData)
-                              Actions.push('Home');
-                              })
-                              .catch((error) => {
-                                  console.error(error);
-                               });
-
-                                      // alert(responseJson.body)
-
-    
+      }),
+      body: "phone=" + userData.email + "&password=" + userData.password,
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({ status: 'error' })
+        console.log(responseJson);
+        if (responseJson.status == 'success') {
+          setStorageItem('user', responseJson.body).then(() => {
+            this.props.setUser(responseJson.body)
+            Actions.push('Home');
+          })
+        } else {
+          Alert.alert(I18n.t('error'), I18n.t('invalid_username_or_password'))
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   renderTemplate() {
     const props = {
       loginUser: this.loginUser,
+      status: this.state.status
     };
     return <Login props={props} />;
   }

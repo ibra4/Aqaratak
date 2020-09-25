@@ -14,8 +14,6 @@ import Main from './src/Main'
 
 import 'react-native-gesture-handler';
 
-import SplashScreen from 'react-native-splash-screen';
-
 import {Provider} from 'react-redux';
 import {store} from './src/store';
 
@@ -55,7 +53,7 @@ if (!firebase.apps.length) {
       }
     }
     getLocaleFromStorage();
-    SplashScreen.hide();
+    // SplashScreen.hide();
   }, []);
 
   const renderTemplate = () => {

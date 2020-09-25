@@ -5,6 +5,7 @@ import { Presets } from '../../assets/style';
 import I18n from '../../I18n';
 import { Actions } from 'react-native-router-flux';
 import Header from '../../components/Header';
+import LoadingSmall from '../../components/LoadingSmall'
 
 export default function Login({ props }) {
   const [userData, setUserData] = useState({});
@@ -18,10 +19,6 @@ export default function Login({ props }) {
       alert(I18n.t('please_enter_your_password'));
       return false;
     }
-    // if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userData.email)) {
-    //   alert(I18n.t('please_enter_a_valid_email'));
-    //   return false;
-    // }
     return true;
   };
 
@@ -41,7 +38,7 @@ export default function Login({ props }) {
     <View>
       <Header />
       <View
-        style={[Presets.container, Presets.justifyCenter, {height: '80%'}]}>
+        style={[Presets.container, Presets.justifyCenter, { height: '80%' }]}>
         <Text style={Presets.title}>Login</Text>
         <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
           <TextInput
@@ -58,19 +55,21 @@ export default function Login({ props }) {
             onChangeText={(value) => handleUserData('password', value)}
           />
         </View>
-        <TouchableOpacity
-          style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}>
-          <Text
-            style={[
-              Presets.colorWhite,
-              Presets.bold,
-              Presets.upperCase,
-              Presets.btnText,
-            ]}
-            onPress={() => handleSubmit()}>
-            Login
+        {props.status == "loading" ? <LoadingSmall /> :
+          <TouchableOpacity
+            style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}>
+            <Text
+              style={[
+                Presets.colorWhite,
+                Presets.bold,
+                Presets.upperCase,
+                Presets.btnText,
+              ]}
+              onPress={() => handleSubmit()}>
+              Login
         </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        }
         <TouchableOpacity
           style={[Presets.btn, Presets.fieldMargin]} activeOpacity="0.9"
           onPress={() => Actions.Register()} >

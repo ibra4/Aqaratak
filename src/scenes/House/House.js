@@ -212,7 +212,7 @@ export default function House({props}) {
     </View>
   );
 
-  const renderSpacing = () => <Text style={{padding: 40}}></Text>;
+  const renderSpacing = () => <Text style={{padding: 80}}></Text>;
 
   const renderLocation = (location) => (
     <MapView
@@ -240,9 +240,9 @@ export default function House({props}) {
         <View style={[Presets.spaceBetween, Presets.alignCenter]}>
           <View>
             <Text style={[Presets.ripeTitle]}>{owner.name}</Text>
-            <Text style={[Presets.colorSilver, {marginTop: 5}]}>
+            {/* <Text style={[Presets.colorSilver, {marginTop: 5}]}>
               {owner.location}
-            </Text>
+            </Text> */}
           </View>
           <View style={Presets.flexStart}>
             <TouchableOpacity
@@ -277,7 +277,7 @@ export default function House({props}) {
           : props.data.propertyDetails,
       )} */}
       {/* {renderLocation(props.data.location)} */}
-      {renderContact(props.data.owner)}
+      {renderContact(props.data)}
       {renderSpacing()}
     </ScrollView>
   );

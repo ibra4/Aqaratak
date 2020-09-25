@@ -22,7 +22,6 @@ class HouseIndex extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.props)
     this.getData()
   }
 
@@ -45,6 +44,7 @@ class HouseIndex extends Component {
     }
     const response = await get(options)
     await response.json().then(json => {
+      console.log("Json", json)
       this.handleResponse(json);
     })
   }
@@ -54,6 +54,7 @@ class HouseIndex extends Component {
     switch (status) {
       case 'success':
         const tempData = this.state.data
+        console.log(tempData)
         tempData.gallery = [];
         tempData.gallery.push(tempData.img)
         tempData.gallery.push(tempData.img)
