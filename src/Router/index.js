@@ -11,6 +11,7 @@ import NewsIndex from '../scenes/News/NewsIndex';
 import BookFormIndex from '../scenes/BookForm/BookFormIndex';
 import NewsInnerIndex from '../scenes/News/inner/index';
 import HouseFormIndex from '../scenes/HosueForm/HouseFormIndex';
+import OffersIndex from '../scenes/Offers/OffersIndex';
 import AdminMessage from '../scenes/AdminMessage/AdminMessage'
 import About from '../scenes/About'
 import Privacy from '../scenes/Privacy'
@@ -25,13 +26,14 @@ export default function index() {
   return (
     <Router>
       <Stack key="root">
+        {loggedIn && <Scene key="Offers" component={OffersIndex} hideNavBar />}
         <Scene key="Home" component={HomeIndex} hideNavBar />
         {!loggedIn && (
           <Scene key="Login" component={LoginIndex} hideNavBar />
         )}
         <Scene key="Register" component={Register} hideNavBar />
         {/* {loggedIn && ( */}
-          <Scene key="HouseForm" component={HouseFormIndex} hideNavBar />
+        <Scene key="HouseForm" component={HouseFormIndex} hideNavBar />
         {/* )} */}
         <Scene key="About" component={About} hideNavBar />
         <Scene key="Message" component={AdminMessage} hideNavBar />

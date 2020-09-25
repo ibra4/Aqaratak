@@ -37,12 +37,12 @@ export default function Footer() {
         <Icon name="user" size={20} color={Colors.silver} />
         <Text style={{ color: Colors.silver }}>{I18n.t('add_new_house')}</Text>
       </TouchableOpacity>}
-      <TouchableOpacity style={style.footerItem} 
-      // onPress={() => goTo("Menu")}
+      {loggedIn && <TouchableOpacity style={style.footerItem}
+        onPress={() => goTo("Offers")}
       >
         <Icon name="eye" size={20} color={Colors.silver} />
         <Text style={{ color: Colors.silver }}>{I18n.t('My_Offers')}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>}
       <TouchableOpacity style={style.footerItem} onPress={() => goTo("Menu")}>
         <Icon name="bars" size={20} color={Colors.silver} />
         <Text style={{ color: Colors.silver }}>{I18n.t('menu')}</Text>
