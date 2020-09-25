@@ -32,7 +32,8 @@ export default function Contact() {
     const handleSubmit = async () => {
         setLoading(true)
         const options = {
-            route: contactUsRoute
+            route: contactUsRoute,
+            body: data
         }
         const response = await post(options);
         await response.json().then(json => {
@@ -45,6 +46,33 @@ export default function Contact() {
             }
         })
     }
+    const RegisteUser = (userData) => {
+
+        console.log(userData);
+       
+        // const URL='http://aqaratkqatar.com/Routing/web.php?action=AddeUser';
+        // let response=  fetch(URL, {
+        //     method: 'POST',
+        //     headers: new Headers({
+        //       'Content-Type': 'application/x-www-form-urlencoded',
+    
+        //        }),
+        //       body: "name="+userData.username+"&email="+userData.email+"&password="+userData.password+"&phone="+userData.Phone+"&status=0",
+        //                           })
+        //                           .then((response) => response.json())
+        //                           .then((responseJson) => {
+        //                            console.log(responseJson);
+        //                            alert(responseJson);
+        //                            if(responseJson.status!=="success"){
+        //                             alert(responseJson.body);
+        //                            }
+        //                           })
+        //                           .catch((error) => {
+        //                               console.error(error);
+        //                                   });
+    
+    // console.log(this.state.data);
+                                        }
 
     return (
         <Layout>

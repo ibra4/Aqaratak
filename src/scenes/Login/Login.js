@@ -18,10 +18,10 @@ export default function Login({ props }) {
       alert(I18n.t('please_enter_your_password'));
       return false;
     }
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userData.email)) {
-      alert(I18n.t('please_enter_a_valid_email'));
-      return false;
-    }
+    // if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userData.email)) {
+    //   alert(I18n.t('please_enter_a_valid_email'));
+    //   return false;
+    // }
     return true;
   };
 

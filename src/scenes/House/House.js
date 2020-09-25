@@ -277,7 +277,7 @@ export default function House({props}) {
           : props.data.propertyDetails,
       )} */}
       {/* {renderLocation(props.data.location)} */}
-      {/* {renderContact(props.data.owner)} */}
+      {renderContact(props.data.owner)}
       {renderSpacing()}
     </ScrollView>
   );

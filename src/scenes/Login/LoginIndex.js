@@ -5,7 +5,8 @@ import auth from '@react-native-firebase/auth';
 
 import I18n from '../../I18n';
 import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
+import { connect, useDispatch} from 'react-redux';
+
 import { setUser } from '../../actions';
 
 class LoginIndex extends Component {
@@ -14,6 +15,7 @@ class LoginIndex extends Component {
 
     this.state = {
       status: 'success',
+      
     };
 
     this.loginUser = this.loginUser.bind(this);
@@ -37,28 +39,29 @@ class LoginIndex extends Component {
     //     Actions.push('Home');
     //   })
     //   .catch((error) => this.handleError(error));
-    const URL='http://aqaratkqatar.com/Routing/web.php';
+    console.log(userData);
+    console.log("phone="+userData.email+"&password="+userData.password);
+    const URL='http://aqaratkqatar.com/Routing/web.php?action=LoginUser';
     let response=  fetch(URL, {
         method: 'POST',
         headers: new Headers({
           'Content-Type': 'application/x-www-form-urlencoded',
 
 }),
-          body: "param1="+userData.email+"&param2="+userData.password,
+          body: "phone="+userData.email+"&password="+userData.password,
                               })
                               .then((response) => response.json())
                               .then((responseJson) => {
                                console.log(responseJson);
-                              this.setState({
-                                              data: responseJson
-                                            })
+                               this.props.setUser(userData)
                               Actions.push('Home');
                               })
                               .catch((error) => {
                                   console.error(error);
-                                      });
+                               });
 
-console.log(this.state.data);
+                                      // alert(responseJson.body)
+
     
   }
 

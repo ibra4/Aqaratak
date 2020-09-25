@@ -19,17 +19,17 @@ export default function Menu() {
   const dispatch = useDispatch();
 
   const logoutUser = (userData) => {
-    auth()
-      .signOut()
-      .then((res) => {
+    // auth()
+    //   .signOut()
+    //   .then((res) => {
 
         dispatch(logout())
         Actions.push('Home');
         // store userdata in device storage
         // store userdata in redux
         // this.props.setUser(res);
-      })
-      .catch((error) => this.handleError(error));
+      // })
+      // .catch((error) => this.handleError(error));
   }
 
   return (
