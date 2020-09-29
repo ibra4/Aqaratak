@@ -300,6 +300,7 @@ module.exports = StyleSheet.create({
   },
   homeTitle: {
     fontSize: 20,
+    fontWeight: 'bold',
     color: Colors.black,
     paddingBottom: 10,
   },
@@ -396,5 +397,8 @@ module.exports = StyleSheet.create({
     borderColor: "#8C1B3D",
     borderWidth: 0.25,
     borderRadius: 10
+  },
+  showAll: {
+    color: Colors.claret,
   }
 });

@@ -1,6 +1,5 @@
 /* */
-import { AsyncStorage, Platform } from 'react-native';
-
+import { Platform, AsyncStorage } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 
 import storage from '@react-native-firebase/storage';

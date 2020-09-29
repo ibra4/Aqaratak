@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Picker,
   TouchableOpacity,
-  AsyncStorage,
   I18nManager,
   StatusBar,
 } from 'react-native';
@@ -14,6 +13,7 @@ import {Presets, Colors, Spacing} from '../../assets/style';
 import I18n from '../../I18n';
 import RNRestart from 'react-native-restart';
 import Loading from '../../components/Loading';
+import { setStorageItem, getStorageItem } from '../../providers/provider';
 
 export default function Settings() {
   const [isNew, setIsNew] = useState(true);
@@ -23,7 +23,7 @@ export default function Settings() {
 
   const setLanguage = async () => {
     if (isNew || storageLanguage != selectedValue) {
-      await AsyncStorage.setItem('default_lang', selectedValue);
+      await setStorageItem('default_lang', selectedValue);
       I18n.locale = selectedValue;
       if (selectedValue === 'ar') {
         I18nManager.forceRTL(true);
@@ -37,7 +37,7 @@ export default function Settings() {
 
   useEffect(() => {
     async function initSettings() {
-      const locale = await AsyncStorage.getItem('default_lang');
+      const locale = await getStorageItem('default_lang');
       if (locale) {
         setStorageLanguage(locale);
         setSelectedValue(locale);

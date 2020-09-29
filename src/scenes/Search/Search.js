@@ -298,12 +298,15 @@ export default function Search({ props }) {
     </View>
   }
 
+  const renderSpacing = () => <Text style={{ padding: 80 }}></Text>
+
   return <ScrollView>
     <View style={[Presets.fullScreen, Presets.container, Presets.justifyCenter, { paddingTop: 30 }]}>
       {renderSearchForm()}
       <View style={{ marginTop: 30, borderTopWidth: 1, borderTopColor: Colors.claret, paddingTop: 20 }}>
         {props.data.length > 0 ? props.data.map(item => renderHouseItem(item, item.id)) : <Text>No Results</Text>}
       </View>
+      {renderSpacing()}
     </View>
   </ScrollView>
 }

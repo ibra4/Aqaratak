@@ -1,5 +1,5 @@
 /* Domain & Urls */
-const domain = 'http://aqaratkqatar.com/';
+const domain = 'https://aqaratkqatar.com/';
 const sub = 'Routing/web.php';
 
 export const url = domain + sub;
@@ -8,13 +8,7 @@ export const url = domain + sub;
 export const langCode = '?langCode=';
 export const id = '&id=';
 
-/* Search Params */
-export const searchKeyword = '&searchKeyword=';
-
 /* Routes */
-
-/* Home */
-export const homepageRoute = 'home';
 
 /* Houses */
 export const housesRoute = 'show_house';
@@ -32,4 +26,16 @@ export const MessageRoute = "Message"
 export const contactUsRoute = "Contact"
 
 /* Favorite */
-export const favouriteUsRoute = "Favorite"
+export const favoriteRoute = "userAllFavorite"
+
+/* Favorite */
+export const VisitHouseRoute = "Visit"
+
+/* Cities */
+export const CitiesRoute = "Cities"
+
+/* Upload Images */
+export const uploadImagesRoute = "AddeImages"
+
+/* Add House */
+export const addHouseRoute = "Add_house"

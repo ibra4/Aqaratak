@@ -1,4 +1,4 @@
-import React, {createRef} from 'react';
+import React, { createRef } from 'react';
 import {
   Dimensions,
   Text,
@@ -11,12 +11,12 @@ import {
   Button,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import {Presets, Colors, Spacing} from '../../assets/style';
+import { Presets, Colors, Spacing } from '../../assets/style';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Carousel from 'react-native-snap-carousel';
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import LinearGradient from 'react-native-linear-gradient';
 
 import I18n from '../../I18n';
@@ -27,59 +27,71 @@ const dimensions = Dimensions.get('window');
 const imageHeight = Math.round((dimensions.width * 9) / 10);
 const imageWidth = dimensions.width;
 
-export default function House({props}) {
+export default function House({ props }) {
   const searchCarouselRef = createRef('');
-  const user_id = useSelector(state => state.user.user.id)
+  const user = useSelector(state => state.user.user)
+
+  const handleLikeHouse = () => {
+    if (user) {
+      props.likeHouse(props.data.id, user.id)
+    } else {
+      Actions.push("Login")
+    }
+  }
 
   const renderTopHeader = (data) => {
     return (
-    <View>
-      <Swiper
-        showsButtons={false}
-        style={{height: imageHeight}}
-        dotColor={Colors.white}
-        activeDotColor={Colors.claret}>
-        {data.gallery.map((item, key) => (
-          <Image
-            source={{uri: item}}
-            style={{height: imageHeight, width: imageWidth}}
-          />
-        ))}
-      </Swiper>
-      <TouchableOpacity
-        style={Presets.homeHeartContainer}
-        onPress={() => props.likeHouse(data.id, user_id)}>
-        <Icon name="heart-o" size={20} color={Colors.silver} />
-      </TouchableOpacity>
-      <View style={{}}>
-        <LinearGradient
-          colors={['#00000000', '#000000ff']}
-          style={Presets.sectionBody}>
-          {data.offerType != "" && <Text style={style.houseRent}>{I18n.t(data.offerType)}</Text>}
-          <Text style={style.houseTitle}>{data.Name}</Text>
-          <View style={Presets.spaceBetween}>
-            <View style={Presets.flexStart}>
-              <Text style={Presets.colorWhite}>{data.location}</Text>
-              <View style={[Presets.flexStart, Presets.ph15]}>
-                <Icon name="map" size={20} color={Colors.white} />
-                <Text style={[Presets.colorWhite, Presets.ph5]}>
-                  {data.area} {I18n.t('metersquare')}
-                </Text>
+      <View>
+        <Swiper
+          showsButtons={false}
+          style={{ height: imageHeight }}
+          dotColor={Colors.white}
+          activeDotColor={Colors.claret}>
+          {data.gallery.map((item, key) => (
+            <Image
+              source={{ uri: item }}
+              style={{ height: imageHeight, width: imageWidth }}
+            />
+          ))}
+        </Swiper>
+        <TouchableOpacity
+          style={Presets.homeHeartContainer}
+          onPress={() => handleLikeHouse()}>
+          <Icon name="heart-o" size={20} color={Colors.silver} />
+        </TouchableOpacity>
+        <View style={{}}>
+          <LinearGradient
+            colors={['#00000000', '#000000ff']}
+            style={Presets.sectionBody}>
+            {data.offerType != "" && <Text style={style.houseRent}>{I18n.t(data.offerType)}</Text>}
+            <Text style={style.houseTitle}>{data.Name}</Text>
+            <View style={Presets.spaceBetween}>
+              <View style={Presets.flexStart}>
+                <Text style={Presets.colorWhite}>{data.location}</Text>
+                <View style={[Presets.flexStart, Presets.ph15]}>
+                  <Icon name="map" size={20} color={Colors.white} />
+                  <Text style={[Presets.colorWhite, Presets.ph5]}>
+                    {data.area} {I18n.t('metersquare')}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        </LinearGradient>
+          </LinearGradient>
+        </View>
       </View>
-    </View>
-  )};
+    )
+  };
 
   const renderBody = (data) => (
     <View>
-      <View style={Presets.container}>
-        <Text style={[Presets.colorLime, Presets.fontSize18]}>
-          {I18n.t('price')}
-        </Text>
-        <Text style={[Presets.fontSize20, Presets.bold]}>${data.price}</Text>
+      <View style={[Presets.container, Presets.spaceBetween]}>
+        <View>
+          <Text style={[Presets.colorLime, Presets.fontSize18]}>
+            {I18n.t('price')}
+          </Text>
+          <Text style={[Presets.fontSize20, Presets.bold]}>${data.price}</Text>
+        </View>
+        <Text style={{ paddingTop: 10 }}>ID: {data.id}</Text>
       </View>
       <View style={[Presets.houseNumbersContainer, Presets.spaceBetween]}>
         <View style={Presets.verticalCenter}>
@@ -150,12 +162,16 @@ export default function House({props}) {
           </View>
         </TouchableOpacity>
       </View> */}
-      <View style={[Presets.container, Presets.flexStart]}>
+      <View style={[Presets.container, Presets.spaceBetween]}>
         <TouchableOpacity
           style={[style.bookButton]}
-          onPress={() => Actions.push('BookForm', {id: data.id})}>
+          onPress={() => Actions.push('BookForm', { id: data.id })}>
           <Text style={Presets.colorWhite}>{I18n.t('booking_for_review')}</Text>
         </TouchableOpacity>
+        <View style={Presets.flexStart}>
+          <Icon name="eye" size={20} color={Colors.silver} />
+          <Text style={{paddingLeft: 10}}>{data.Seen_Numbers}</Text>
+        </View>
       </View>
       <View style={Presets.container}>
         <Text style={[Presets.fontSize20]}>{I18n.t('description')}</Text>
@@ -185,19 +201,19 @@ export default function House({props}) {
     </View>
   );
 
-  const renderGalaryItem = ({item}) => {
+  const renderGalaryItem = ({ item }) => {
     return (
       <TouchableOpacity
         style={Presets.searchItem}
-        onPress={() => Actions.push('Gallery', {images: props.data.gallery})}>
-        <Image source={{uri: item}} style={{height: '100%', width: '100%'}} />
+        onPress={() => Actions.push('Gallery', { images: props.data.gallery })}>
+        <Image source={{ uri: item }} style={{ height: '100%', width: '100%' }} />
       </TouchableOpacity>
     );
   };
 
   const renderGallerySection = (data) => (
     <View style={Presets.secion}>
-      <Text style={[Presets.fontSize20, {paddingBottom: 15}]}>
+      <Text style={[Presets.fontSize20, { paddingBottom: 15 }]}>
         {I18n.t('gallery')}
       </Text>
       <Carousel
@@ -214,7 +230,7 @@ export default function House({props}) {
     </View>
   );
 
-  const renderSpacing = () => <Text style={{padding: 80}}></Text>;
+  const renderSpacing = () => <Text style={{ padding: 80 }}></Text>;
 
   const renderLocation = (location) => (
     <MapView
@@ -235,9 +251,10 @@ export default function House({props}) {
     </MapView>
   );
 
+
   const renderContact = (owner) => (
     <View style={Presets.secion}>
-      <Text style={[Presets.fontSize20, {paddingBottom: 15}]}>Contact</Text>
+      <Text style={[Presets.fontSize20, { paddingBottom: 15 }]}>Contact</Text>
       <View>
         <View style={[Presets.spaceBetween, Presets.alignCenter]}>
           <View>
@@ -253,14 +270,19 @@ export default function House({props}) {
               <Icon name="phone" size={20} color={Colors.claret} />
             </TouchableOpacity>
             <TouchableOpacity
-              style={[Presets.contactButton, {marginLeft: 10}]}
+              style={[Presets.contactButton, { marginLeft: 10 }]}
               onPress={() => Linking.openURL(`sms: ${owner.phone}`)}>
               <Icon name="comment-o" size={20} color={Colors.claret} />
             </TouchableOpacity>
             <TouchableOpacity
-              style={[Presets.contactButton, {marginLeft: 10}]}
+              style={[Presets.contactButton, { marginLeft: 10 }]}
               onPress={() => Linking.openURL(`mailto: ${owner.mail}`)}>
               <Icon name="envelope" size={20} color={Colors.claret} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[Presets.contactButton, { marginLeft: 10 }]}
+              onPress={() => Linking.openURL(`whatsapp://send?text=hi&phone=${owner.phone}`)}>
+              <Icon name="whatsapp" size={20} color={Colors.claret} />
             </TouchableOpacity>
           </View>
         </View>

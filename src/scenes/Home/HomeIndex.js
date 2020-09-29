@@ -28,7 +28,7 @@ class HomeIndex extends Component {
     this.getData();
   }
 
-  handleResponse(response, json) {
+  handleResponse(json) {
     switch (json.status) {
       case 'success':
         this.setState({
@@ -44,14 +44,12 @@ class HomeIndex extends Component {
   }
 
   async getData() {
-    const data = I18n.locale == 'ar' ? homeData_ar : homeData;
-    this.setState({ data: data });
     const options = {
       route: housesRoute
     }
     const response = await get(options)
     await response.json().then(data => {
-      this.handleResponse(response, data)
+      this.handleResponse(data)
     })
   }
 
@@ -76,7 +74,7 @@ class HomeIndex extends Component {
   }
 
   render() {
-    return <Layout header={true}>{this.renderTemplate()}</Layout>;
+    return <Layout>{this.renderTemplate()}</Layout>;
   }
 }
 

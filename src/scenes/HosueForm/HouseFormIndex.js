@@ -1,17 +1,40 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import HouseForm from './HouseForm';
 import Layout from '../../components/layout/parallax/Layout';
 import firestore from '@react-native-firebase/firestore';
 
 import I18n from '../../I18n'
+import { post } from '../../providers/provider';
+import { addHouseRoute } from '../../providers/routes';
+import { Actions } from 'react-native-router-flux';
 
 export default class HouseFormIndex extends Component {
-  handleSubmit(data) {
-    firestore()
-      .collection('houses')
-      .add(data)
-      .then((data) => console.log("Success", data))
-      .catch((error) => console.log("Error", error));
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+
+    }
+  }
+
+
+  async handleSubmit(data) {
+    console.log(data)
+    const options = {
+      route: addHouseRoute,
+      body: data
+    }
+    const response = await post(options)
+    await response.json().then(json => {
+      console.log(json)
+      if (json.status == 'success') {
+        alert("Addedd successfully")
+        Actions.push("Home")
+      } else {
+        alert("Check Missing Fields")
+      }
+    })
   }
 
   renderTemplate() {

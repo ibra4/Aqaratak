@@ -14,15 +14,15 @@ export default function Register({ props }) {
   const dispatch = useDispatch()
 
   const validate = () => {
-    if (!userData.email || userData.email == null) {
-      alert(I18n.t('please_enter_your_email'));
-      return false;
-    }
+    // if (!userData.email || userData.email == null) {
+    //   alert(I18n.t('please_enter_your_email'));
+    //   return false;
+    // }
     if (!userData.password || userData.password == null) {
       alert(I18n.t('please_enter_your_password'));
       return false;
     }
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userData.email)) {
+    if (userData.email && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userData.email)) {
       alert(I18n.t('please_enter_a_valid_email'));
       return false;
     }
@@ -46,7 +46,7 @@ export default function Register({ props }) {
 
   const RegisteUser = () => {
     setLoading(true)
-    const URL = 'http://aqaratkqatar.com/Routing/web.php?action=AddeUser';
+    const URL = 'https://aqaratkqatar.com/Routing/web.php?action=AddeUser';
     let response = fetch(URL, {
       method: 'POST',
       headers: new Headers({
@@ -60,10 +60,10 @@ export default function Register({ props }) {
         setLoading(false)
         console.log(responseJson)
         if (responseJson.status == "success") {
-          Alert.alert(I18n.t('success'), I18n.t('user_registered_successfully'))
+          alert(I18n.t('user_registered_successfully'))
           Actions.push("Login")
         } else {
-          Alert.alert(I18n.t('error', I18n.t('register_field')))
+          alert(I18n.t('register_field'))
         }
       })
       .catch((error) => {

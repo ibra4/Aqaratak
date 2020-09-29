@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Picker,
-  Platform,
   Image,
 } from 'react-native';
 import { Presets, Spacing, Colors } from '../../assets/style';
@@ -15,53 +14,27 @@ import I18n from '../../I18n';
 
 import ImagePicker from 'react-native-image-picker';
 
-import storage from '@react-native-firebase/storage';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Loading from '../../components/Loading';
 import LoadingSmall from '../../components/LoadingSmall';
+import { uploadImagesRoute } from '../../providers/routes';
+import { post } from '../../providers/provider'
+import { useSelector } from 'react-redux'
 
 const options = {
   title: 'Select Image',
+  base64: true,
   storageOptions: {
     skipBackup: true,
     path: 'images',
   },
 };
 
-const ar = {
-  title: 'العنوان',
-  description: 'الوصف',
-  price: 'السعر',
-  area: 'المساحة',
-  kitchens: 'المطالخ',
-  parkings: 'كراج',
-  bathrooms: 'تواليت',
-  bedrooms: 'غرف',
-  location: 'الموفع',
-  choose_offer_type: 'إختر نوع العرض',
-  for_rent: 'للإيجار',
-  for_sale: 'للبيع',
-};
-const en = {
-  title: 'Title',
-  description: 'Description',
-  price: 'Price',
-  area: 'Area',
-  kitchens: 'Kitchens',
-  parkings: 'Parkings',
-  bathrooms: 'Bathroom',
-  bedrooms: 'Bedrooms',
-  location: 'Location',
-  choose_offer_type: 'Choose Offer Type',
-  for_rent: 'For Rent',
-  for_sale: 'For Sale',
-};
-
 function HouseForm({ props }) {
-  const [labels, setLabels] = useState(null);
 
-  const [data, setData] = useState({ offerType: 0 });
+  const [offerType, setOfferType] = useState('1');
+
+  const [data, setData] = useState({});
 
   const [specs, setSpecs] = useState([]);
 
@@ -74,6 +47,10 @@ function HouseForm({ props }) {
   const [imageUri, setImageUri] = useState(null);
 
   const [galleryLoader, setGalleryLoader] = useState(false);
+
+  const [imageLoader, setImageLoader] = useState(false)
+
+  const user_id = useSelector(state => state.user.user.id)
 
   const fields = {
     title: { required: true, error: false },
@@ -95,14 +72,6 @@ function HouseForm({ props }) {
     currentData[name] = value;
     setData(currentData);
   };
-
-  useEffect(() => {
-    console.log(specs);
-  }, [specs]);
-
-  useEffect(() => {
-    console.log(gallery);
-  }, [gallery]);
 
   const addSpec = () => {
     if (currentTitle && currentTitle != '') {
@@ -127,26 +96,29 @@ function HouseForm({ props }) {
     setGalleryUri(galleryUri.filter((item, index) => index !== idx));
   };
 
-  useEffect(() => {
-    if (I18n.locale == 'ar') {
-      setLabels(ar);
-    } else {
-      setLabels(en);
+  const validate = () => {
+    console.log(data)
+    if (!data.Name || !data.location || !data.description || !data.price || !data.area) {
+      alert('Please fill the missing fields')
+      return false
     }
-  }, []);
+    return true
+  }
 
   const submitForm = () => {
-    const valid = true;
-    data.specs = specs;
-    data.gallery = gallery;
+    const valid = validate();
     if (valid) {
+      data.properties = specs.join();
+      data.gellery = gallery.join();
+      data.offerType = offerType
+      data.id_user = user_id
       setData({});
       props.handleSubmit(data);
-      Actions.push('Home', { message: 'Added Successfully' });
     }
   };
 
-  const uploadImage = async () =>
+  const uploadImage = async () => {
+    setImageLoader(true);
     ImagePicker.showImagePicker(options, async (response) => {
       console.log("Upoad Pressed")
       if (response.didCancel) {
@@ -155,19 +127,24 @@ function HouseForm({ props }) {
         console.log('ImagePicker Error: ', response.error);
       } else {
         setImageUri(response.uri);
-        const fileLocalPath =
-          Platform.OS === 'android' ? response.path : response.uri;
-        const storageRef = storage().ref(response.fileName);
-        storageRef
-          .putFile(fileLocalPath)
-          .then(async () => {
-            const downloadableUrl = await storageRef.getDownloadURL();
-            setValue('image', downloadableUrl);
-            console.log("downloadableUrl : ", downloadableUrl)
-          })
-          .catch((err) => console.log(err));
+        // const fileLocalPath =
+        //   Platform.OS === 'android' ? response.path : response.uri;
+        const resp = await post({
+          route: uploadImagesRoute,
+          body: {
+            image: response.data
+          }
+        })
+        await resp.json().then(data => {
+          setImageLoader(false)
+          if (data.status == 'success') {
+            console.log(data.body[0].ID)
+            setValue('img', data.body[0].ID)
+          }
+        })
       }
     });
+  }
 
   const uploadGallery = async () => {
     setGalleryLoader(true);
@@ -178,17 +155,16 @@ function HouseForm({ props }) {
         console.log('ImagePicker Error: ', response.error);
       } else {
         addGalleryUri(response.uri);
-        const fileLocalPath =
-          Platform.OS === 'android' ? response.path : response.uri;
-        const storageRef = storage().ref(response.fileName);
-        storageRef
-          .putFile(fileLocalPath)
-          .then(async () => {
-            const downloadableUrl = await storageRef.getDownloadURL();
-            addGelleryImage(downloadableUrl);
-            setGalleryLoader(false);
-          })
-          .catch((err) => setGalleryLoader(false));
+        const resp = await post({
+          route: uploadImagesRoute,
+          body: {
+            image: response.data
+          }
+        })
+        await resp.json().then(data => {
+          addGelleryImage(data.body[0].ID)
+          setGalleryLoader(false);
+        })
       }
     });
   };
@@ -203,6 +179,7 @@ function HouseForm({ props }) {
           <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
             <TextInput
               value={currentTitle}
+              style={Presets.textField}
               onChangeText={(value) => setCurrentTitle(value)}
             />
           </View>
@@ -230,176 +207,112 @@ function HouseForm({ props }) {
     );
   };
 
+  const renderTextField = (name, number = false) => <View style={{ paddingTop: 10 }}>
+    <Text style={Presets.colorSilver}>{I18n.t(name)}</Text>
+    <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
+      <TextInput
+        key="price"
+        onChangeText={(value) => setValue(name, value)}
+        keyboardType={number ? 'numeric' : 'default'}
+        style={Presets.textField}
+      />
+    </View>
+  </View>
+
   return (
-    labels && (
-      <View
-        style={[Presets.fullScreen, Presets.container, Presets.justifyCenter]}>
+    <View
+      style={[Presets.fullScreen, Presets.container, Presets.justifyCenter]}>
+      <ScrollView>
         {renderSpecs()}
-        <ScrollView>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="title"
-              onChangeText={(value) => setValue('title', value)}
-              placeholder={labels.title}
-              style={Presets.textField}
-            />
+        {renderTextField('Name')}
+        <View style={[Presets.fieldMargin]}>
+          <Text style={Presets.colorSilver}>{I18n.t('image')}</Text>
+          {!imageLoader ? <TouchableOpacity
+            style={Presets.ImageUploadFieldContainer}
+            onPress={() => uploadImage()}>
+            <Text style={Presets.ImageUploadField}>Upload</Text>
+          </TouchableOpacity> : <LoadingSmall />}
+          <View style={[{ alignItems: 'center' }, Presets.container]}>
+            {imageUri && (
+              <Image
+                style={{ height: 100, width: 100 }}
+                source={{ uri: imageUri }}
+              />
+            )}
           </View>
-          <View style={[Presets.fieldMargin]}>
-            <Text>Image</Text>
+        </View>
+        <View style={[Presets.fieldMargin]}>
+          <Text style={Presets.colorSilver}>{I18n.t('gallery')}</Text>
+          {!galleryLoader ? (
             <TouchableOpacity
               style={Presets.ImageUploadFieldContainer}
-              onPress={() => uploadImage()}>
+              onPress={() => uploadGallery()}>
               <Text style={Presets.ImageUploadField}>Upload</Text>
             </TouchableOpacity>
-            <View style={[{ alignItems: 'center' }, Presets.container]}>
-              {imageUri && (
-                <Image
-                  style={{ height: 100, width: 100 }}
-                  source={{ uri: imageUri }}
-                />
-              )}
-            </View>
+          ) : (
+              <LoadingSmall />
+            )}
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+              },
+              Presets.container,
+            ]}>
+            {galleryUri.length > 0 &&
+              galleryUri.map((item, index) => (
+                <View style={{ width: '49.9%' }}>
+                  <Image
+                    key={index}
+                    style={{ height: 100, margin: 10 }}
+                    source={{ uri: item }}
+                  />
+                  <TouchableOpacity
+                    onPress={() => removeGalleryUri(index)}
+                    style={{
+                      position: 'absolute',
+                    }}>
+                    <View style={Presets.trashTopIcon}>
+                      <Icon name="trash" size={20} color="red" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))}
           </View>
-          <View style={[Presets.fieldMargin]}>
-            <Text>Gallery</Text>
-            {!galleryLoader ? (
-              <TouchableOpacity
-                style={Presets.ImageUploadFieldContainer}
-                onPress={() => uploadGallery()}>
-                <Text style={Presets.ImageUploadField}>Upload</Text>
-              </TouchableOpacity>
-            ) : (
-                <LoadingSmall />
-              )}
-            <View
-              style={[
-                {
-                  // alignItems: 'space-between',
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  // flex: 1,
-                  // backgroundColor: 'red',
-                },
-                Presets.container,
-              ]}>
-              {galleryUri.length > 0 &&
-                galleryUri.map((item, index) => (
-                  <View style={{ width: '49.9%' }}>
-                    <Image
-                      key={index}
-                      style={{ height: 100, margin: 10 }}
-                      source={{ uri: item }}
-                    />
-                    <TouchableOpacity
-                      onPress={() => removeGalleryUri(index)}
-                      style={{
-                        position: 'absolute',
-                      }}>
-                      <View style={Presets.trashTopIcon}>
-                        <Icon name="trash" size={20} color="red" />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                ))}
-            </View>
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="description"
-              onChangeText={(value) => setValue('description', value)}
-              placeholder={labels.description}
-              style={Presets.textField}
-            />
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="price"
-              onChangeText={(value) => setValue('price', value)}
-              placeholder={labels.price}
-              keyboardType="numeric"
-              style={Presets.textField}
-            />
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="area"
-              onChangeText={(value) => setValue('area', value)}
-              placeholder={labels.area}
-              keyboardType="numeric"
-              style={Presets.textField}
-            />
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="kitchens"
-              onChangeText={(value) => setValue('kitchens', value)}
-              keyboardType="numeric"
-              placeholder={labels.kitchens}
-              style={Presets.textField}
-            />
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="parkings"
-              onChangeText={(value) => setValue('parkings', value)}
-              keyboardType="numeric"
-              placeholder={labels.parkings}
-              style={Presets.textField}
-            />
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="bathrooms"
-              onChangeText={(value) => setValue('bathrooms', value)}
-              keyboardType="numeric"
-              placeholder={labels.bathrooms}
-              style={Presets.textField}
-            />
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="bedrooms"
-              onChangeText={(value) => setValue('bedrooms', value)}
-              value={data.bedrooms}
-              keyboardType="numeric"
-              placeholder={labels.bedrooms}
-              style={Presets.textField}
-            />
-          </View>
-          <View style={[Presets.textFieldContainer, Presets.fieldMargin]}>
-            <TextInput
-              key="location"
-              onChangeText={(value) => setValue('location', value)}
-              placeholder={labels.location}
-              style={Presets.textField}
-            />
-          </View>
-          <Picker
-            onValueChange={(itemValue, itemIndex) =>
-              setValue('offerType', itemValue)
-            }
-            selectedValue={data.offerType}>
-            <Picker.Item value={0} label={labels.choose_offer_type} />
-            <Picker.Item value={1} label={labels.for_rent} />
-            <Picker.Item value={2} label={labels.for_sale} />
-          </Picker>
-          <TouchableOpacity
-            style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}
-            onPress={() => submitForm()}>
-            <Text
-              style={[
-                Presets.colorWhite,
-                Presets.btnText,
-                Presets.bold,
-                Presets.upperCase,
-              ]}>
-              {I18n.t('add')}
-            </Text>
-          </TouchableOpacity>
-          <Text style={{ paddingTop: 150 }}></Text>
-        </ScrollView>
-      </View>
-    )
+        </View>
+        {renderTextField('description')}
+        {renderTextField('price', true)}
+        {renderTextField('area', true)}
+        {renderTextField('kitchen', true)}
+        {renderTextField('parking', true)}
+        {renderTextField('bathroom', true)}
+        {renderTextField('bedroom', true)}
+        {renderTextField('location')}
+        <Picker
+          selectedValue={offerType}
+          onValueChange={(itemValue, itemIndex) => setOfferType(itemValue)}
+        >
+          <Picker.Item value="0" label={I18n.t('choose_offer_type')} />
+          <Picker.Item value="1" label={I18n.t('for_rent')} />
+          <Picker.Item value="2" label={I18n.t('for_sale')} />
+        </Picker>
+        <TouchableOpacity
+          style={[Presets.btn, Presets.primaryBtn, Presets.fieldMargin]}
+          onPress={() => submitForm()}>
+          <Text
+            style={[
+              Presets.colorWhite,
+              Presets.btnText,
+              Presets.bold,
+              Presets.upperCase,
+            ]}>
+            {I18n.t('add')}
+          </Text>
+        </TouchableOpacity>
+        <Text style={{ paddingTop: 250 }}></Text>
+      </ScrollView>
+    </View>
   );
 }
 

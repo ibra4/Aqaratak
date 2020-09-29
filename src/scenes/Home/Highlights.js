@@ -60,7 +60,12 @@ export default function Highlights({ data }) {
 
   return (
     <View style={Presets.secion}>
-      <Text style={Presets.homeTitle}>{I18n.t('highlight')}</Text>
+      <View style={Presets.spaceBetween}>
+        <Text style={Presets.homeTitle}>{I18n.t('highlight')}</Text>
+        <TouchableOpacity onPress={() => Actions.push('HouseListing', { title: I18n.t('all_houses') })}>
+          <Text style={Presets.showAll}>{I18n.t('show_all')}</Text>
+        </TouchableOpacity>
+      </View>
       <Carousel
         ref={carouselRef}
         data={data}

@@ -9,9 +9,12 @@ import LoginIndex from '../scenes/Login/LoginIndex';
 import HouseIndex from '../scenes/House/HouseIndex';
 import NewsIndex from '../scenes/News/NewsIndex';
 import BookFormIndex from '../scenes/BookForm/BookFormIndex';
+import HouseListingIndex from '../scenes/HouseListing/HouseListingIndex';
 import NewsInnerIndex from '../scenes/News/inner/index';
 import HouseFormIndex from '../scenes/HosueForm/HouseFormIndex';
+import CitiesListingIndex from '../scenes/CitiesListing/CitiesListingIndex';
 import OffersIndex from '../scenes/Offers/OffersIndex';
+import FavoritesIndex from '../scenes/Favorites/FavoritesIndex';
 import AdminMessage from '../scenes/AdminMessage/AdminMessage'
 import About from '../scenes/About'
 import Privacy from '../scenes/Privacy'
@@ -27,15 +30,14 @@ export default function index() {
     <Router>
       <Stack key="root">
         <Scene key="Home" component={HomeIndex} hideNavBar />
-        {loggedIn && <Scene key="Offers" component={OffersIndex} hideNavBar />}
-        {!loggedIn && (
-          <Scene key="Login" component={LoginIndex} hideNavBar />
-        )}
-        <Scene key="Register" component={Register} hideNavBar />
-        {/* {loggedIn && ( */}
-        <Scene key="HouseForm" component={HouseFormIndex} hideNavBar />
-        {/* )} */}
+        <Scene key="Favorites" component={FavoritesIndex} hideNavBar />
+        <Scene key="HouseListing" component={HouseListingIndex} hideNavBar />
+        <Scene key="CitiesListing" component={CitiesListingIndex} hideNavBar />
         <Scene key="About" component={About} hideNavBar />
+        {loggedIn && <Scene key="Offers" component={OffersIndex} hideNavBar />}
+        {!loggedIn && <Scene key="Login" component={LoginIndex} hideNavBar />}
+        <Scene key="Register" component={Register} hideNavBar />
+        <Scene key="HouseForm" component={HouseFormIndex} hideNavBar />
         <Scene key="Message" component={AdminMessage} hideNavBar />
         <Scene key="Privacy" component={Privacy} hideNavBar />
         <Scene key="Contact" component={Contact} hideNavBar />

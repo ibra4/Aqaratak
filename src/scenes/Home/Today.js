@@ -97,7 +97,12 @@ export default function Today({ data, likeHouse }) {
 
   return (
     <View style={Presets.secion}>
-      <Text style={Presets.homeTitle}>{I18n.t('today_new')}</Text>
+      <View style={Presets.spaceBetween}>
+        <Text style={Presets.homeTitle}>{I18n.t('today_new')}</Text>
+        <TouchableOpacity onPress={() => Actions.push('HouseListing')}>
+          <Text style={Presets.showAll}>{I18n.t('show_all')}</Text>
+        </TouchableOpacity>
+      </View>
       <View>
         <FlatList data={data} renderItem={(item) => renderTodayItem(item)} />
       </View>

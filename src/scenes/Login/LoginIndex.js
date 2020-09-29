@@ -34,7 +34,7 @@ class LoginIndex extends Component {
 
   loginUser(userData) {
     this.setState({ status: 'loading' })
-    const URL = 'http://aqaratkqatar.com/Routing/web.php?action=LoginUser';
+    const URL = 'https://aqaratkqatar.com/Routing/web.php?action=LoginUser';
     let response = fetch(URL, {
       method: 'POST',
       headers: new Headers({

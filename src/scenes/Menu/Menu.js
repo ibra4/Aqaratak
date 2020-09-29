@@ -25,8 +25,8 @@ export default function Menu() {
     })
   }
 
-  const renderSpacing = () => <Text style={{padding: 80}}></Text>
-  
+  const renderSpacing = () => <Text style={{ padding: 80 }}></Text>
+
   return (
     <View style={{ flex: 1 }}>
       <Title>{I18n.t('menu')}</Title>
@@ -140,12 +140,27 @@ export default function Menu() {
 
           {loggedIn && <TouchableOpacity
             style={[Presets.menuItem, Presets.spaceBetween]}
+            onPress={() => Actions.push('HouseListing', { favorite: true })}>
+            <View style={Presets.flexStart}>
+              <Icon name="star" size={20} color={Colors.silver} />
+              <Text style={Presets.menuItemText}>{I18n.t('favorites')}</Text>
+            </View>
+            <Icon
+              name={I18n.locale == 'ar' ? 'chevron-left' : 'chevron-right'}
+              size={20}
+              color={Colors.silver}
+            />
+          </TouchableOpacity>}
+
+          {loggedIn && <TouchableOpacity
+            style={[Presets.menuItem, Presets.spaceBetween]}
             onPress={() => logoutUser()}>
             <View style={Presets.flexStart}>
               <Icon name="sign-out" size={20} color={Colors.claret} />
               <Text style={[Presets.menuItemText, { color: Colors.claret }]}>{I18n.t('logout')}</Text>
             </View>
           </TouchableOpacity>}
+
 
           <View style={Presets.socailicons}>
             <TouchableOpacity

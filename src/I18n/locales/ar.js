@@ -53,6 +53,8 @@ export default {
   My_Offers: 'اعلاناتي',
   Register: 'empty',
   MassageAdmin: 'رسالة إلى الادمن',
+  all_houses: 'جميع العقارات',
+  favorites: 'المفضلة',
   empty: 'empty',
   empty: 'empty',
   empty: 'empty',

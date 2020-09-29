@@ -5,7 +5,6 @@
  * @flow strict-local
  */
 import React, {useEffect, useState} from 'react';
-import {AsyncStorage, LogBox} from 'react-native';
 
 import I18n from './src/I18n/index';
 
@@ -19,6 +18,7 @@ import {store} from './src/store';
 
 import Loading from './src/components/Loading';
 import firebase from '@react-native-firebase/app';
+import { getStorageItem } from './src/providers/provider';
 
 
 const App: () => React$Node = () => {
@@ -43,7 +43,7 @@ if (!firebase.apps.length) {
   useEffect(() => {
     async function getLocaleFromStorage() {
 
-      const locale = await AsyncStorage.getItem('default_lang');
+      const locale = await getStorageItem('default_lang');
       if (locale) {
         I18n.locale = locale;
         setStatus('success');
